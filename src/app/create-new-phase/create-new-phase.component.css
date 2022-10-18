@@ -1,0 +1,6 @@
+.placeholder-name::-webkit-input-placeholder{
+  font-style: italic;
+}
+.share-link{
+  color:#212529;
+}

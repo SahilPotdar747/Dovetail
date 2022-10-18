@@ -1,0 +1,201 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 d-flex align-items-center justify-content-end mb-1">
+      <div class="btn-ghost rounded px-2" (click)="openCreateNewModal()">
+        <img src="assets/images/bgBrownAddIcon.svg" style="width: 1.06rem" />
+        <button type="button" class="btn btn-ghost border-0 px-1 fs-08">
+          Add New
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+        data-target="#deletePhaseModal"
+        data-toggle="modal"
+        [disabled]="selectedAll.length > 0 ? false : true"
+      >
+        <img
+          class="mr-1"
+          src="assets/images/deleteBrownProductIcon.svg"
+          style="width: 1.1rem"
+        />
+        <span class="fs-08"> Delete</span>
+      </button>
+
+      <div class="search-container position-relative">
+        <img
+          src="assets/images/search-boxicon.svg"
+          class="d-block input-icon-right"
+        />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search here..."
+          [(ngModel)]="searchValue"
+          (ngModelChange)="searchsection($event)"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 table-responsive table-height custom-scroll-bar">
+      <table class="table table-hover phases-table fs-08 border-top-0">
+        <thead class="">
+          <tr class="bg-light">
+            <th class="border-0">
+              <div
+                class="
+                  custom-control custom-checkbox
+                  checkbox-select
+                  d-flex
+                  justify-content-between
+                "
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck"
+                  (change)="selectAllCheckbox($event)"
+                  name="customCheck"
+                />
+                <label class="custom-control-label" for="customCheck"></label>
+              </div>
+            </th>
+            <th class="border-0 fs-08">Name</th>
+            <th class="border-0 fs-08">Categories</th>
+            <th class="border-0 fs-08">Status</th>
+          </tr>
+        </thead>
+        <tbody class="custom-table-body custom-scroll-bar">
+          <tr class="fs-07" *ngFor="let item of SectionList.results">
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input custom-select-all"
+                  [id]="item?._id"
+                  (click)="onSelect1($event, item)"
+                />
+                <label class="custom-control-label" [for]="item?._id"></label>
+              </div>
+            </td>
+            <td
+              (click)="editSectionModal(item)"
+              class="cursor-pointer border-top-0"
+            >
+              <div
+                class="system-table-container"
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ item?.name }}
+              </div>
+            </td>
+
+            <td
+              (click)="editSectionModal(item)"
+              class="cursor-pointer border-top-0"
+            >
+              <div class="system-table-container">
+                {{ item?.categories?.length }}
+              </div>
+            </td>
+
+            <td class="border-top-0" >
+              <div
+                class="
+                  custom-control custom-checkbox
+                  checkbox-select
+                  d-flex
+                  justify-content-between
+                "
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="item?._id"
+                  [(ngModel)]="item.isActive"
+                />
+                <label
+                  class="custom-control-label"
+                  [for]="item?._id"
+                  for="customCheck"
+                ></label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="col-12 d-flex align-items-center justify-content-between">
+      <div class="d-flex text-secondary fs-08">
+        <span>{{ selectedAll.length }} Total /</span>
+        <span>{{ SectionList?.results?.length}} selected</span>
+      </div>
+      <nav>
+  <pagination  [boundaryLinks]="true" [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+  [totalItems]="SectionList.totalResults"
+  [itemsPerPage]="SectionList.limit"
+  (pageChanged)="pageChanged($event)"
+  [(ngModel)]="currentPage">
+  </pagination>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deletePhaseModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title">Delete Product</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body fs-09">
+        <!-- <div>
+        <p>Are you sure you want to delete section(s):<span *ngFor="let item of array">{{item}},</span>?</p>
+        </div> -->
+        <div class="">
+          <span class="fw-500 pr-2"
+            >Are you sure you want to delete section(s):
+            </span>
+          <label class="pr-1 mb-0" *ngFor="let item of deleteSectionName"
+            >{{ item?.name }} <label *ngIf="deleteSectionName.length > 1">,</label>
+          </label>
+        </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme"
+          data-dismiss="modal"
+          (click)="deleteSection()"
+        >
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

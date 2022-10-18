@@ -1,0 +1,186 @@
+<div class="container-fluid">
+  <div class="row">
+    <div
+      class="col-12 d-flex align-items-center justify-content-end mb-1 fs-07"
+    >
+      <div class="btn-ghost rounded px-2" (click)="openCreateNewModal()">
+        <img src="assets/images/bgBrownAddIcon.svg" style="width: 1.06rem" />
+        <button type="button" class="btn btn-ghost border-0 px-1 fs-07">
+          Add User
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+        data-target="#deleteUsersModal"
+        data-toggle="modal"
+        [disabled]="selectedAll.length > 0 ? false : true"
+      >
+        <img
+          class="mr-1"
+          src="assets/images/deleteBrownProductIcon.svg"
+          style="width: 1.1rem"
+        />
+        <span class="fs-07">Delete User</span>
+      </button>
+
+      <div class="search-container position-relative mr-2">
+        <img
+          src="assets/images/search-boxicon.svg"
+          class="d-block input-icon-right"
+        />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search here..."
+          [(ngModel)]="searchValue"
+          (ngModelChange)="searchUsers()"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 table-responsive custom-height custom-scroll-bar mb-2">
+      <table
+        class="table user-management-table fs-08 border-top-0 table-hovered-color"
+      >
+        <thead class="d-table w-100">
+          <tr class="bg-light fs-08">
+            <th class="border-0">
+              <div
+                class="custom-control custom-checkbox checkbox-select d-flex"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck"
+                  (change)="selectAllCheckbox($event)"
+                  name="customCheck"
+                />
+                <label class="custom-control-label" for="customCheck"></label>
+              </div>
+            </th>
+            <th class="border-0 col-2">Image</th>
+            <th class="border-0 col-2 custom-width">Email</th>
+            <th class="border-0 col-2 custom-width">Full Name</th>
+            <th class="border-0 col-2">Phone Number</th>
+            <th class="border-0 col-2">Last Logged In</th>
+          </tr>
+        </thead>
+
+        <tbody class="d-block custom-table-body custom-scroll-bar fs-07">
+          <tr class="d-table w-100" *ngFor="let item of getAllUsers">
+            <td>
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="item?._id"
+                  (click)="onSelect($event, item)"
+                  [(ngModel)]="item.isChecked"
+                />
+                <label class="custom-control-label" [for]="item?._id"></label>
+              </div>
+            </td>
+
+            <td class="col-2">
+              <div class="rounded-circle table-image cursor-pointer"></div>
+            </td>
+
+            <td
+              class="cursor-pointer col-2 custom-width"
+              (click)="editusersListModal(item)"
+            >
+              <div>{{ item?.email }}</div>
+            </td>
+
+            <td
+              class="cursor-pointer col-2 custom-width"
+              (click)="editusersListModal(item)"
+            >
+              <div>{{ item?.name }}</div>
+            </td>
+
+            <td class="cursor-pointer col-2" (click)="editusersListModal(item)">
+              <div>{{ item?.phone_number }}</div>
+            </td>
+
+            <td class="cursor-pointer col-2" (click)="editusersListModal(item)">
+              <div>{{ item?.last_loggedIn }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 d-flex align-items-center justify-content-between">
+  <div class="d-flex text-secondary fs-08 mb-3">
+    <span>{{ selectedAll.length }} Selected/</span>
+    <span>{{ getAllUsers?.length }} Total</span>
+  </div>
+  <pagination
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+    [totalItems]="getAllUsers.totalResults"
+    [itemsPerPage]="getAllUsers.limit"
+    [(ngModel)]="currentPage"
+    (pageChanged)="pageChanged($event)"
+  >
+  </pagination>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deleteUsersModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title">Delete User</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body fs-09">
+        <div>
+          Are you sure you want to delete user_name ?
+          <span *ngFor="let item of deleteSelectedData"
+            >{{ item?.name }}
+            <span *ngIf="deleteSelectedData.length > 1">, </span>
+          </span>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme"
+          data-dismiss="modal"
+          (click)="deleteUser()"
+        >
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

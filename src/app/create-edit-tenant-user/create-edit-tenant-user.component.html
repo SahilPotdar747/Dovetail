@@ -1,0 +1,177 @@
+<div
+  class="d-flex align-items-center justify-conten-between px-3 border-bottom pt-3 pb-2"
+>
+  <h4 class="flex-fill fw-700">Create Tenant User</h4>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="cancelModal()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+
+<form
+  class="signUp-container w-100 p-3"
+  autocomplete="off"
+  #f="ngForm"
+  (ngSubmit)="f.valid && tenantSignUp()"
+  name="signUpForm"
+>
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control input-height"
+      id="companyName"
+      name="companyName"
+      placeholder="Company Name"
+      autocomplete=""
+      [(ngModel)]="tenantUserSignUp.tenant_name"
+      #companyName="ngModel"
+      required
+    />
+    <span class="text-danger fs-08" *ngIf="f.submitted && !companyName.valid">
+      Company Name is required
+    </span>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="form-group col-6">
+      <input
+        type="text"
+        class="form-control input-height"
+        id="firstName"
+        name="firstName"
+        placeholder="First Name"
+        autocomplete=""
+        required
+        [(ngModel)]="tenantUserSignUp.first_name"
+        #first_name="ngModel"
+      />
+      <span class="text-danger fs-08" *ngIf="f.submitted && !first_name.valid">
+        First Name is required
+      </span>
+    </div>
+
+    <div class="form-group col-6">
+      <input
+        type="text"
+        class="form-control input-height"
+        id="lastname"
+        name="lastname"
+        placeholder="Last Name"
+        autocomplete=""
+        required
+        [(ngModel)]="tenantUserSignUp.last_name"
+        #last_name="ngModel"
+      />
+      <span class="text-danger fs-08" *ngIf="f.submitted && !last_name.valid">
+        Last Name is required
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="email"
+      class="form-control input-height"
+      id="emailAddress"
+      name="emailAddress"
+      placeholder="Email Address"
+      autocomplete="new-email"
+      [(ngModel)]="tenantUserSignUp.email"
+      #email="ngModel"
+      required
+      pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+    />
+
+    <div
+      class="text-danger fs-08"
+      *ngIf="
+        (f.submitted && !email.valid) || (email.errors && email.errors?.['pattern'])
+      "
+    >
+      Please enter a Valid Email Address
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="position-relative">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        class="form-control input-height"
+        id="emailPassword"
+        name="emailPassword"
+        placeholder="Password"
+        autocomplete="new-password"
+        [(ngModel)]="tenantUserSignUp.password"
+        #password="ngModel"
+        required
+        (change)="checkPassword()"
+        (focusout)="checkPassword()"
+      />
+      <div
+        class="border-0 position-absolute show-password"
+        (click)="showPasswordButton()"
+      >
+        <img
+          [src]="
+            showPassword
+              ? 'assets/images/showPasswordEyeIcon.svg'
+              : 'assets/images/hidePasswordEyeIcon.svg'
+          "
+          style="width: 1.02rem"
+        />
+      </div>
+    </div>
+    <span class="text-danger fs-08" *ngIf="f.submitted && !password.valid">
+      Password is required
+    </span>
+  </div>
+
+  <div class="form-group">
+    <div class="position-relative">
+      <input
+        [type]="showConfirmPassword ? 'text' : 'password'"
+        class="form-control input-height"
+        id="confirmEmailPassword"
+        name="confirmEmailPassword"
+        placeholder="Confirm Password"
+        autocomplete=""
+        [(ngModel)]="tenantUserSignUp.confirm_password"
+        #confirm_password="ngModel"
+        (change)="checkPassword()"
+        (focusout)="checkPassword()"
+      />
+      <div
+        class="border-0 position-absolute show-password"
+        (click)="showConfirmPasswordButton()"
+      >
+        <img
+          [src]="
+            showConfirmPassword
+              ? 'assets/images/showPasswordEyeIcon.svg'
+              : 'assets/images/hidePasswordEyeIcon.svg'
+          "
+          style="width: 1.02rem"
+        />
+      </div>
+    </div>
+    <span
+      class="text-danger fs-08"
+      *ngIf="
+        checkPasswordValidation || (f.submitted && !confirm_password.valid)
+      "
+    >
+      Password does not match
+    </span>
+  </div>
+
+  <button
+    type="submit"
+    class="my-2 btn-theme input-height fs-07 w-100 text-white border-0 rounded"
+  >
+    Create Account
+  </button>
+</form>

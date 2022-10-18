@@ -1,0 +1,437 @@
+<div
+  class="
+    modal-header
+    d-flex
+    align-items-center
+    justify-content-between
+    border-bottom
+    pb-1
+  "
+>
+  <div class="modal-title fw-700" *ngIf="!isEdit">Create New Section</div>
+  <div class="modal-title fw-700" *ngIf="isEdit">Edit Section</div>
+</div>
+
+<!-- body -->
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex justify-content-between">
+          <ul class="nav  mb-3" role="tablist">
+            <li class="nav-item mr-1 fs-09">
+              <a
+                class="nav-link show active"
+                data-toggle="tab"
+                href="#editbasic"
+                role="tab"
+                (click)="closeDocument()"
+                >Basic Info</a
+              >
+            </li>
+            <li class="nav-item fs-09" *ngIf="false">
+              <a
+                class="nav-link "
+                data-toggle="tab"
+                href="#editdocument"
+                role="tab"
+                (click)="showDocument()"
+                >Document & Notes</a
+              >
+            </li>
+          </ul>
+          <div>
+            <div *ngIf="isdocument" class="d-flex align-items-center">
+              <div
+                class="d-flex align-items-center justify-content-end"
+                data-toggle="modal"
+                data-target="#addfile"
+              >
+                <button
+                  type="button"
+                  class="btn btn-ghost rounded px-2 d-flex align-items-center"
+                  (click)="opendocumentuploaderModal()"
+                >
+                  <img
+                    class="mr-1"
+                    src="assets/images/bgBrownAddIcon.svg"
+                    style="width: 1rem"
+                  />
+                  <span class="fs-08">Add File</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="
+                    btn btn-ghost
+                    rounded
+                    px-2
+                    d-flex
+                    align-items-center
+                    mx-2
+                  "
+                  data-target="#deleteDocumentModal"
+                  data-toggle="modal"
+                  [disabled]="selectedAll.length > 0 ? false : true"
+                >
+                  <img
+                    class="mr-1"
+                    src="assets/images/deleteBrownProductIcon.svg"
+                    style="width: 1.1rem"
+                  />
+                  <span class="fs-08"> Delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- show code -->
+        <form>
+          <div class="tab-content">
+            <div class="tab-pane show active" id="editbasic" role="tabpanel">
+              <div class="row mb-1">
+                <div class="col">
+                  <div class="process-name-input-header fs-07 mb-1">
+                    Name<span class="text-danger ">*</span>
+                  </div>
+                  <div class="">
+                    <input
+                      type="text"
+                      class="form-control input-group"
+                      placeholder="Enter Name"
+
+                      [(ngModel)]="sectionTypeData.name"
+                      name="shortName"
+                      #shortName="ngModel"
+                      required
+
+                    />
+                    <span class="text-danger fs-08" *ngIf="shortName.invalid && shortName.touched">Name is required</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group mt-2">
+                <div class="custom-control custom-checkbox d-flex mb-2">
+                  <input
+                    type="checkbox"
+                    id="areaIsActive"
+                    class="custom-control-input"
+                    name="areaIsActive"
+                    checked
+                    [(ngModel)]="sectionTypeData.isActive"
+                    name="IsActive"
+                    #IsActive="ngModel"
+                  />
+                  <label
+                    class="custom-control-label d-flex align-items-center fs-08 fw-500"
+                    for="areaIsActive"
+                    >Is Active</label
+                  >
+                </div>
+              <div class="fs-08 mb-3">
+              <div>Select Tenant Users:</div>
+              <ng-select
+              class="w-50"
+
+              #tenantId="ngModel"
+              name="tenantName"
+              [multiple]="true"
+
+
+              [(ngModel)]="tenantData._id"
+              (focusout)="onFocusOut(tenantData._id)">
+              <ng-option value="selectAll">
+                <div class="fs-08" id="selectAllTenantId">Select All</div>
+              </ng-option>
+              <ng-option
+                *ngFor="let item of tenantData?.results"
+                [value]="item._id">{{ item.tenant_name }}</ng-option>
+            </ng-select>
+              </div>
+              </div>
+              <div>
+                <p class="fw-500 fs-08 mb-2">Categories</p>
+              </div>
+              <div class="container-fluid mb-0" cdkDropListGroup>
+                <div class="row bg-dragdrop">
+                  <div class="col-md-6 ">
+                    <div class="categories-container p-2">
+                      <div
+                        class="
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          basic-info-checkbox
+                          mb-2
+                        "
+                      >
+                        <span class="fs-08"><b>Categories</b> ( Available )</span>
+                         <button (click)="selectAllAvailableSections()" type="button" class="btn bg-white select-btn fs-07 p-1">
+                          {{sectionList.length == 0 ?  "Select None" : "Select All"}}
+                        </button>
+                      </div>
+
+                      <div
+                    cdkDropList
+                    [cdkDropListData]="sectionList"
+                    class="section-list bg-light px-2 my-2 custom-scroll-bar"
+                    (cdkDropListDropped)="dragDrop($event)"
+                  >
+                    <div
+                      class="section-box p-2 border rounded my-2 bg-white"
+                      *ngFor="let item of sectionList"
+                      cdkDrag
+                    >
+                      {{ item?.name }}
+                    </div>
+                  </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="categories-container shadow-sm">
+                      <div
+                        class="d-flex align-items-center basic-info-checkbox pb-2 mt-1 fs-09"
+                      >
+                        <span class="flex-fill fs-08"
+                          ><b>CategoriesUsed </b>( Used process )</span
+                        >
+                        <button
+                          type="button"
+                          class="btn bg-white select-btn p-1 mr-2 fs-07 sort-button"
+                        (click)="sortSelectedSectionList()">
+                          Sort All
+                        </button>
+                        <button
+                          type="button"
+                          class="btn bg-white select-btn fs-07 p-1 select-all" (click)="selectAllSelectedSections()"
+                        >
+                        {{selectedSectionList.length == 0 ? "Select None" : "Select All"}}
+                        </button>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-column flex-fill fs-08 ml-1 mt-0">
+                      <div
+                        cdkDropList
+                        [cdkDropListData]="selectedSectionList"
+                        class="categories-list bg-light px-2 my-2 custom-scroll-bar"
+                        (cdkDropListDropped)="dragDrop($event)"
+                      >
+                        <div
+                          class="section-box p-2 border rounded my-2 bg-white"
+                          *ngFor="let item of selectedSectionList"
+                          cdkDrag
+                        >
+                          {{ item?.name }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="editdocument" role="tabpanel" *ngIf="false">
+              <div class="row table-row my-3">
+                <div class="col-12 table-responsive">
+                  <table class="table table-container">
+                    <thead>
+                      <tr class="bg-light">
+                        <th class="border-0 document-checkbox">
+                          <div
+                            class="
+                              custom-control custom-checkbox
+                              checkbox-select
+                              d-flex
+                              justify-content-between
+                            "
+                          >
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck12"
+                              (change)="selectAllCheckbox($event)"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck12"
+                            ></label>
+                          </div>
+                        </th>
+                        <th class="border-0 fs-09">
+                          Documents, Files and Notes
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let items of docs">
+                        <td class="">
+                          <div
+                            class="
+                              custom-control custom-checkbox
+                              checkbox-select mt-3
+                            "
+                          >
+                            <input
+                              type="checkbox"
+                              class="custom-control-input custom-select"
+                              [id]="items?.id"
+                              (click)="onSelect($event, items?.id)"
+                              [(ngModel)]="items.isChecked"
+                              [ngModelOptions]="{ standalone: true }"
+                            />
+                            <label
+                              class="custom-control-label"
+                              [for]="items.id"
+                            ></label>
+                          </div>
+                        </td>
+                        <td
+                          class="
+                            d-flex
+                            align-items-center
+                            justify-content-between
+                          "
+                        >
+                          <div class="d-flex align-items-center">
+                            <div
+                              class="
+                                system-table-container
+                                table-data-colour
+                                mr-2 table-image
+                              "
+                            >
+                              <img
+                                src="../../../assets/images/PDF.png"
+                                style="width: 3rem"
+                              />
+                            </div>
+                            <div
+                              class="
+                                d-flex
+                                flex-column
+                                system-table-container
+                                fs-08
+                              "
+                            >
+                              <span class="text-primary fw-700">
+                                {{ items?.doc_name }}
+                              </span>
+                              <span class="">
+                                {{ items?.doc_time }}
+                              </span>
+                              <span class="">
+                                {{ items?.doc_type }}
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            class="system-table-container table-data-colour cursor-pointer"
+                            data-toggle="modal"
+                            data-target="#deleteDocumentModal"
+                          >
+                            <img
+                              src="../../../assets/images/Group 19321.svg"
+                              style="width: 1.2rem"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- button -->
+          <div class="d-flex align-items-center justify-content-end mt-3">
+            <button
+              type="button"
+              class="btn btn-light mx-2 d-flex align-items-center"
+              (click)="cancelModal()"
+            >
+              <img
+                src="assets/images/cancelButton.svg"
+                class="mr-1"
+                style="width: 1.06rem"
+              />
+              <span class="fs-08">Cancel</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-theme d-flex align-items-center"
+              *ngIf="!isEdit"
+              (click)="createSection()"
+              [disabled]="!shortName.valid"
+            >
+              <img
+                src="assets/images/addProjectIcon.svg"
+                style="width: 1.06rem"
+                class="mr-1"
+              />
+              <span class="fs-08">Create</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-theme d-flex align-items-center"
+              *ngIf="isEdit"
+              (click)="updateSection()"
+
+            >
+              <img
+                src="assets/images/saveCheckIcon.svg"
+                style="width: 1.06rem"
+                class="mr-1"
+              />
+
+              <span class="fs-08">Save</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete document -->
+<div class="modal fade" tabindex="-1" id="deleteDocumentModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title">Delete product</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body fs-09">
+        <p>Are you sure you want to delete document?</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button type="button" class="btn btn-theme" data-dismiss="modal">
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

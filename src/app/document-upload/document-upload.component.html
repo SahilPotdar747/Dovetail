@@ -1,0 +1,80 @@
+<div
+  class="
+    modal-header
+    d-flex
+    align-items-center
+    justify-content-between
+    border-bottom
+    pb-1
+  "
+>
+  <div class="modal-title fw-700">Add File/Note</div>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div>
+      <label for="roomTypes" class="fw-500 fs-08 mb-2"> Document Type </label>
+      <div class="d-flex align-items-center">
+        <ng-select
+          class="form-control"
+          [items]="cars"
+          bindLabel="name"
+          bindValue="id"
+          name="selectedCar"
+          [(ngModel)]="selectedCar"
+        >
+          <ng-option *ngFor="let car of cars" [value]="car.id">{{
+            car.name
+          }}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-12">
+        <label class="font-italic fs-08">Max document size: 12 Mb.</label>
+        <div class="d-flex justify-content-center attached-here-div">
+          <div class="image-upload my-2">
+            <label for="file-input">
+              <img
+                src="../assets/images/Web1920216_attachdocument.svg"
+                style="width: 0.93rem"
+              /><span class="justify-content-center fs-08 cursor-pointer ml-1"
+                >Attach Document</span
+              >
+            </label>
+            <input id="file-input" type="file" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer border-0">
+  <div class="modal-footer border-0">
+    <button
+      type="button"
+      class="btn btn-light"
+      data-dismiss="modal"
+      (click)="cancelModal()"
+    >
+      <img
+        src="assets/images/cancelButton.svg"
+        style="width: 1.06rem"
+        class="mr-1"
+      />
+      <span class="fs-08">Cancel</span>
+    </button>
+    <button type="button" class="btn btn-theme" data-dismiss="modal">
+      <img
+        src="assets/images/addProjectIcon.svg"
+        class="mr-1"
+        style="width: 1rem"
+      />
+      <span class="fs-08">Add To Project</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,196 @@
+<div class="px-3">
+  <div class="d-flex align-items-center justify-content-end">
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center fs-07"
+      (click)="openCreateNewModal()"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/bgBrownAddIcon.svg"
+        style="width: 1rem"
+      />
+      <span>Add New</span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2 fs-07"
+      data-target="#deletePhaseModal"
+      data-toggle="modal"
+      [disabled]="selectedAll.length > 0 ? false : true"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/deleteBrownProductIcon.svg"
+        style="width: 1.1rem"
+      />
+      <span> Delete</span>
+    </button>
+
+    <div class="search-container position-relative mr-2">
+      <img
+        src="assets/images/search-boxicon.svg"
+        class="d-block input-icon-right"
+      />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search here..."
+        [(ngModel)]="searchValue"
+        (ngModelChange)="searchdocument($event)"
+      />
+    </div>
+  </div>
+
+  <div class="row table-row my-2">
+    <div class="col-12 table-responsive custom-scroll-bar table-height">
+      <table class="table table-container phases-table table-hover">
+        <thead>
+          <tr class="bg-light">
+            <th class="border-0">
+              <div
+                class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck"
+                  (change)="selectAllCheckbox($event)"
+                />
+                <label class="custom-control-label" for="customCheck"></label>
+              </div>
+            </th>
+
+            <th class="border-0 fs-08">Name</th>
+            <th class="border-0 fs-08">Functional Area Contexts</th>
+            <th class="border-0 fs-08">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of documentTypesArray?.results" class="fs-07">
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input custom-select-all"
+                  [id]="item?._id"
+                  (click)="onSelect($event, item)"
+                  [(ngModel)]="item.isChecked"
+                />
+                <label class="custom-control-label" [for]="item._id"></label>
+              </div>
+            </td>
+
+            <td
+              (click)="editPhasesModal(item)"
+              class="cursor-pointer border-top-0"
+            >
+              <div
+                class=""
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ item?.name }}
+              </div>
+            </td>
+
+            <td
+              (click)="editPhasesModal(item)"
+              class="cursor-pointer border-top-0"
+            >
+              <div class="">
+                {{ item?.businessObjectContexts }}
+              </div>
+            </td>
+
+            <td class="border-top-0">
+              <div
+                class="rounded py-1 text-white text-center cursor-pointer"
+                [ngClass]="{
+                  'bg-success': item.isActive == true,
+                  'bg-danger': item?.isActive == false
+                }"
+              >
+                <span *ngIf="item.isActive == true">Active</span>
+                <span *ngIf="item.isActive == false">InActive</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 d-flex align-items-center justify-content-between">
+  <div class="d-flex text-secondary fs-08 mb-3">
+    <span>{{ selectedAll.length }} Selected/</span>
+    <span>{{ documentTypesArray?.results?.length }} Total</span>
+  </div>
+  <pagination
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+    [totalItems]="documentTypesArray.totalResults"
+    [itemsPerPage]="documentTypesArray.limit"
+    [(ngModel)]="currentPage"
+    (pageChanged)="pageChanged($event)"
+  >
+  </pagination>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deletePhaseModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title">Delete Document</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body fs-09">
+        <div class="">
+          <span class="fw-500 pr-2"
+            >Are you sure you want to delete document type(s):</span
+          >
+          <label class="pr-1 mb-0" *ngFor="let item of deletedDocumentType"
+            >{{ item?.name }}
+            <label *ngIf="deletedDocumentType.length > 1">,</label>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme"
+          data-dismiss="modal"
+          (click)="deleteDocumentType()"
+        >
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

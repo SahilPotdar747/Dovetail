@@ -1,0 +1,282 @@
+<div id="dovetailLoader" class="position-fixed w-100 h-100">
+  <div
+    class="dovetailLoader position-fixed rounded-circle dovetailLoader1"
+  ></div>
+  <div
+    class="dovetailLoader position-fixed rounded-circle dovetailLoader2"
+  ></div>
+  <div
+    class="dovetailLoader position-fixed rounded-circle dovetailLoader3"
+  ></div>
+  <div
+    class="dovetailLoader position-fixed rounded-circle dovetailLoader4"
+  ></div>
+  <div
+    class="dovetailLoader position-fixed rounded-circle dovetailLoader5"
+  ></div>
+</div>
+
+<div
+  class="d-flex align-items-center justify-content-between py-2 pl-3 border-bottom"
+>
+  <div class="d-flex align-items-center">
+    <img
+      class="hamburger mx-2 cursor-pointer"
+      src="assets/images/sidebarExpandButton.svg"
+      alt="homeicon"
+      (click)="collapseSidebar()"
+    />
+
+    <div class="dovetail-brand mx-2 mx-md-4">
+      <img src="assets/images/dovetailLogo.svg" style="width: 7rem" />
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <span class="fw-500 sidebar-text"> Hi, {{ currentUserData }} </span>
+
+    <div
+      class="rounded-circle profile-image mx-3 cursor-pointer"
+      (click)="isProfileOptionsOpen = !isProfileOptionsOpen"
+    >
+      <img class="flex-fill bg-secondary rounded-circle bg-image" />
+    </div>
+
+    <div
+      class="d-flex align-items-center card-container flex-column"
+      *ngIf="!isProfileOptionsOpen"
+    >
+      <div class="flex-fill d-flex profile-body-theme p-2 w-100">
+        <div class="d-flex flex-column align-items-center flex-fill ml-2">
+          <div class="user-image rounded-circle">
+            <img
+              src="assets/images/navbarProfileCameraIcon.svg"
+              class="camera-icon position-relative cursor-pointer"
+            />
+          </div>
+          <div class="fs-08 pt-4 fw-500">Hi, Chetan Mittal</div>
+          <div class="fs-08 cursor-pointer">
+            <u>Change Password</u>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="border rounded-bottom p-3 w-100 bg-white cursor-pointer"
+        (click)="logout()"
+      >
+        <img
+          src="assets/images/navbarProfileLogout.svg"
+          style="width: 1.5rem"
+        />
+        <span class="mb-0 pl-2 fw-500 fs-09">Logout</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="sidebar bg-white border-right d-flex flex-column justify-content-between"
+  id="sidebar"
+>
+  <div class="d-flex flex-column">
+    <div
+      class="sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/product-types"
+      routerLinkActive="active"
+      #rlaProductTypes="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaProductTypes.isActive"
+        src="assets/images/sidebarHome.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaProductTypes.isActive"
+        src="assets/images/sidebarHomeActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">Product Types</div>
+    </div>
+
+    <div
+      class="d-flex sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/fields"
+      routerLinkActive="active"
+      #rlaFields="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaFields.isActive"
+        src="assets/images/newCommunityIcon.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaFields.isActive"
+        src="assets/images/newCommunityIconActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">Fields</div>
+    </div>
+
+    <div
+      class="d-none sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/export-preset"
+      routerLinkActive="active"
+      #rlaExportPresets="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaExportPresets.isActive"
+        src="assets/images/sidebarProducts.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaExportPresets.isActive"
+        src="assets/images/sidebarProductsActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">Export Presets</div>
+    </div>
+
+    <div
+      class="d-none sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/phases"
+      routerLinkActive="active"
+      #rlaPhases="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaPhases.isActive"
+        src="assets/images/sidebarUsers.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaPhases.isActive"
+        src="assets/images/sidebarUsersActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">Phases</div>
+    </div>
+
+    <div
+      class="sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/room-types"
+      routerLinkActive="active"
+      #rlaRoomTypes="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaRoomTypes.isActive"
+        src="assets/images/sidebarSettings.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaRoomTypes.isActive"
+        src="assets/images/sidebarSettingsActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">Room Types</div>
+    </div>
+
+    <div
+      class="d-flex sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/section"
+      routerLinkActive="active"
+      #rlaSystem="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaSystem.isActive"
+        src="assets/images/sidebarSystem.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaSystem.isActive"
+        src="assets/images/sidebarSystemActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">Section</div>
+    </div>
+
+    <div
+      class="d-flex sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/document-types"
+      routerLinkActive="active"
+      #rlaDocumentTypes="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaDocumentTypes.isActive"
+        src="assets/images/sidebarProjects.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaDocumentTypes.isActive"
+        src="assets/images/sidebarProjectsActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">
+        <span>Document Types</span>
+      </div>
+    </div>
+
+    <div
+      class="d-flex sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/users"
+      routerLinkActive="active"
+      #rlaUsers="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaUsers.isActive"
+        src="assets/images/sidebarUsers.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaUsers.isActive"
+        src="assets/images/sidebarUsersActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">
+        <span>Admin Users</span>
+      </div>
+    </div>
+
+    <div
+      class="d-flex sidebar-button px-3 my-2 cursor-pointer"
+      routerLink="/tenant-users"
+      routerLinkActive="active"
+      #rlaTenantUsers="routerLinkActive"
+    >
+      <img
+        class="sidebar-icon"
+        [class.d-none]="rlaTenantUsers.isActive"
+        src="assets/images/sidebarUsers.svg"
+      />
+
+      <img
+        class="sidebar-icon"
+        [class.d-none]="!rlaTenantUsers.isActive"
+        src="assets/images/sidebarUsersActive.svg"
+      />
+
+      <div class="sidebar-text flex-fill pl-3">
+        <span>Tenant Users</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="route-content" id="routeContent">
+  <router-outlet></router-outlet>
+</div>

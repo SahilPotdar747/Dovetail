@@ -1,0 +1,142 @@
+.image-upload > input {
+  display: none;
+}
+.export-preset-page-link {
+  border-radius: 0.44rem;
+  height: 2.1rem;
+  width: 2rem;
+  font-size: 0.66rem;
+  padding-top: 0.6rem;
+  color: #c2c6c5;
+}
+
+.export-preset-page-item {
+  background-color: var(--brown);
+  color: white;
+}
+
+/* .custom-table-body {
+  height: calc(100vh - 22rem);
+} */
+.phases-table td {
+  padding: 0.3rem 0 0.3rem 0.8rem !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid var(--gray-4);
+}
+
+.phases-table thead tr th:first-child,
+.phases-table tbody tr td:first-child {
+  width: 3rem;
+}
+
+.phases-table thead tr th {
+  vertical-align: middle !important;
+}
+.table-height{
+  height: calc(100vh - 10rem);
+  }
+  ul.pagination {
+    gap: 5px !important;
+    }
+    a.page-link {
+      color: red!important;
+  }
+    .page-link.active {
+      background-color: var(--brown);
+      color: white;
+    }
+    li .pagination-first .page-item .page-link{
+      color: #b66e23!important;
+    }
+  /* Pagination start*/
+
+.page-item.active .page-link {
+
+  z-index: 3;
+
+  color: #fff !important;
+
+  background-color: #b66e23 !important;
+
+  border-color: #b66e23 !important;
+
+}
+
+.page-link:hover {
+
+  z-index: 2;
+
+  color: #b66e23;
+
+  text-decoration: none;
+
+  background-color: #e9ecef;
+
+  border-color: #dee2e6;
+
+}
+.page-link {
+
+  position: relative;
+
+  display: block;
+
+  padding: .5rem .75rem;
+
+  margin-left: -1px;
+
+  line-height: 1.25;
+
+  color: #b66e23 !important;
+
+  background-color: #fff;
+
+  border: 1px solid #dee2e6;
+
+}
+
+.page-link:focus {
+
+  z-index: 3;
+
+  outline: 0;
+
+  box-shadow: 0 0 0 0.2rem rgb(182 110 35 / 25%) !important;
+
+}
+
+
+
+li.pagination-page.page-item  .page-link {
+
+  padding: 0.4rem 0.75rem !important;
+
+  border-radius: 0.4rem !important;
+
+  margin: 0rem .25rem !important;
+
+}
+
+
+
+li.pagination-prev.page-item .page-link,
+
+.pagination-first.page-item.disabled .page-link,
+
+.pagination-next.page-item .page-link,
+
+.pagination-last.page-item .page-link,
+
+.pagination-first.page-item .page-link {
+
+  border: none !important;
+
+  padding: 0rem !important;
+
+  margin: 0rem .25rem !important;
+
+}
+
+/* Pagination end*/
+
+

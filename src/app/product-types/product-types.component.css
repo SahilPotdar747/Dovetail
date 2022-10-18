@@ -1,0 +1,33 @@
+.modal-footer {
+  padding: 0rem;
+}
+.export-preset-page-link {
+  border-radius: 0.44rem;
+  height: 2.1rem;
+  width: 2rem;
+  font-size: 0.66rem;
+  padding-top: 0.6rem;
+  color: #c2c6c5;
+}
+
+.export-preset-page-item {
+  background-color: var(--brown);
+  color: white;
+}
+
+.product-table {
+  height: calc(100vh - 10rem);
+  overflow-y: auto;
+}
+.product-table::-webkit-scrollbar{
+  display: none;
+}
+.product-table td {
+  padding: 0.3rem 0 0.3rem 0.8rem !important;
+  vertical-align: middle !important;
+  border-bottom: 0.06rem solid var(--gray-4);
+}
+
+.my-3 {
+  height: calc(100vh - 11.25rem);
+}

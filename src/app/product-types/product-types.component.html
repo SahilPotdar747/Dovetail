@@ -1,0 +1,214 @@
+<div class="px-3">
+  <div class="d-flex align-items-center justify-content-end">
+    <button
+      type="button"
+      data-toggle="modal"
+      data-target="#functionalModal"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+      (click)="openCreateNewModal()"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/bgBrownAddIcon.svg"
+        style="width: 1rem"
+      />
+      <span class="fs-07">Add New</span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center mr-2"
+      data-target="#deleteProductModal"
+      data-toggle="modal"
+      [disabled]="selectedAll.length > 0 ? false : true"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/deleteBrownProductIcon.svg"
+        style="width: 1.1rem"
+      />
+      <span class="fs-07"> Delete</span>
+    </button>
+
+    <div class="search-container position-relative mr-0">
+      <img
+        src="assets/images/search-boxicon.svg"
+        class="d-block input-icon-right"
+      />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search here..."
+        [(ngModel)]="searchValue"
+        (ngModelChange)="searchProduct($event)"
+      />
+    </div>
+  </div>
+
+  <div class="row table-row my-3">
+    <div class="col-12 table-responsive product-table">
+      <table class="table table-container table-hover">
+        <thead class="">
+          <tr class="bg-light fs-08">
+            <th class="border-0">
+              <div
+                class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck"
+                  (change)="selectAllCheckbox($event)"
+                />
+                <label class="custom-control-label" for="customCheck"></label>
+              </div>
+            </th>
+            <th class="border-0">Name</th>
+            <th class="border-0">Functional Area</th>
+            <th class="border-0">Fields</th>
+            <th class="border-0">Is Active</th>
+          </tr>
+        </thead>
+        <tbody class="fs-08">
+          <tr
+            *ngFor="let product of productData?.results"
+            class="cursor-pointer"
+          >
+            <td style="width: 0.5rem" class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input custom-select-all"
+                  [id]="product._id"
+                  (click)="onSelect($event, product)"
+                  [(ngModel)]="product.isChecked"
+                />
+                <label class="custom-control-label" [for]="product._id"></label>
+              </div>
+            </td>
+            <td
+              (click)="editPhasesModal(product)"
+              class="cursor-pointer"
+              class="border-top-0"
+            >
+              <div
+                class="system-table-container"
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ product?.name }}
+              </div>
+            </td>
+            <td
+              (click)="editPhasesModal(product)"
+              class="cursor-pointer"
+              class="border-top-0"
+            >
+              <div
+                class="system-table-container"
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ product?.functional_area }}
+              </div>
+            </td>
+            <td
+              (click)="editPhasesModal(product)"
+              class="cursor-pointer"
+              class="border-top-0"
+            >
+              <div
+                class="system-table-container"
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ product?.fields }}
+              </div>
+            </td>
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  name="isActive"
+                  type="checkbox"
+                  class="custom-control-input"
+                  [(ngModel)]="product.isActive"
+                  #isActive="ngModel"
+                />
+                <label
+                  class="custom-control-label"
+                  [for]="product.isActive"
+                ></label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="col-12 d-flex align-items-center justify-content-between">
+      <div class="d-flex text-secondary fs-08">
+        <span>{{ selectedAll.length }} Selected /</span>
+        <span>{{ productData?.limit }} Total</span>
+      </div>
+      <nav>
+        <pagination
+          [boundaryLinks]="true"
+          [maxSize]="5"
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
+          firstText="&laquo;"
+          lastText="&raquo;"
+          [totalItems]="productData.totalResults"
+          [itemsPerPage]="productData.limit"
+          [(ngModel)]="currentPage"
+          (pageChanged)="pageChanged($event)"
+        >
+        </pagination>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deleteProductModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title fw-700 fs-09">Delete Product</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+      </div>
+      <div class="modal-body fs-09">
+        <p>Are you sure you want to delete ?</p>
+      </div>
+      <div class="modal-footer border-0 my-2 mx-2">
+        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1 mb-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme btn-sm mr-2"
+          (click)="deleteProductTypesData()"
+          data-dismiss="modal"
+        >
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1 mb-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="px-3">
+  <div class="tab-content" id="myTabContent"></div>
+</div>

@@ -1,0 +1,816 @@
+<div
+  class="modal-header d-flex align-items-center justify-content-between border-bottom pb-1"
+>
+  <div class="modal-title fw-700" *ngIf="!isEdit">Create Product Type</div>
+  <div class="modal-title fw-700" *ngIf="isEdit">
+    Edit Product Type "product_name"
+  </div>
+</div>
+
+<!-- New Navs code start -->
+
+<!-- New Navs code end -->
+
+<!-- old nav tab code -->
+<div class="modal-body modal-scroll custom-scroll-bar px-4">
+  <form class="" name="" novalidate>
+    <!-- Bootstrap navs start -->
+    <div>
+      <nav>
+        <div class="nav nav-tabs border-0" id="nav-tab" role="tablist">
+          <a
+            class="nav-item nav-link active"
+            id="nav-basicInfo-tab"
+            data-toggle="tab"
+            href="#nav-basicInfo"
+            role="tab"
+            aria-controls="nav-home"
+            aria-selected="true"
+            *ngIf="isBasicInfo || isEdit"
+            >Basic Info</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-areas-tab"
+            data-toggle="tab"
+            href="#nav-areas"
+            role="tab"
+            aria-controls="nav-areas"
+            aria-selected="false"
+            *ngIf="isAreas"
+            >areas</a
+          >
+
+          <a
+            class="nav-item nav-link"
+            id="nav-budget-tab"
+            data-toggle="tab"
+            href="#nav-budget"
+            role="tab"
+            aria-controls="nav-budget"
+            aria-selected="false"
+            *ngIf="isBudgetTab"
+            >budget</a
+          >
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <!-- Basic Info Tab -->
+        <div
+          class="tab-pane fade show active"
+          id="nav-basicInfo"
+          role="tabpanel"
+          aria-labelledby="nav-basicInfo-tab"
+        >
+          <div class="my-2">
+            <label class="fw-500 mb-0" for=""
+              >Name <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              id=""
+              placeholder="Enter name"
+              class="form-control italicFont"
+              required
+              [(ngModel)]="productTypeData.name"
+              name="productName"
+              #productName="ngModel"
+            />
+            <small
+              class="text-danger"
+              *ngIf="productName.invalid && productName.touched"
+              >Name is required</small
+            >
+          </div>
+          <div class="">
+            <label class="fw-500 mb-0" for="defaultBOName"> Default Name</label>
+            <input
+              type="text"
+              id="defaultBOName"
+              name="defaultBOName"
+              placeholder="Enter Default Name"
+              class="form-control italicFont"
+              [(ngModel)]="productTypeData.defaultBOName"
+              #defaultBOName="ngModel"
+            />
+          </div>
+          <div class="my-2">
+            <label class="fw-500 mb-0" for="description"> Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              placeholder="Enter Description"
+              class="form-control italicFont"
+              [(ngModel)]="productTypeData.description"
+              #description="ngModel"
+            />
+          </div>
+
+          <!-- dropdown list getting from api -->
+          <div
+            class="form-group mt-2 d-flex align-items-center justify-content-between"
+          >
+            <div class="custom-control custom-checkbox d-flex">
+              <input
+                type="checkbox"
+                id="isActive"
+                name="isActive"
+                class="custom-control-input"
+                [(ngModel)]="productTypeData.isActive"
+                #isActive="ngModel"
+              />
+              <label
+                class="custom-control-label d-flex align-items-center fs-08 fw-500"
+                for="isActive"
+              >
+                Is Active</label
+              >
+            </div>
+            <ng-select
+              class="w-50"
+              [(ngModel)]="tenantData._id"
+              #tenantId="ngModel"
+              name="tenantName"
+              (focusout)="onFocusOut(tenantData._id)"
+              [multiple]="true"
+            >
+              <ng-option value="selectAll">
+                <div class="fs-08" id="selectAllTenantId">Select All</div>
+              </ng-option>
+              <ng-option
+                *ngFor="let item of tenantData?.results"
+                [value]="item._id"
+              >
+                {{ item.tenant_name }}</ng-option
+              >
+            </ng-select>
+          </div>
+          <div class="" cdkDropListGroup>
+            <div class="row">
+              <div class="col ml-3" style="background-color: #f5f5f5">
+                <div
+                  class="d-flex justify-content-between align-items-center py-1"
+                >
+                  <strong class="fw-700">Available Fields</strong>
+                  <div class="d-flex align-items-center">
+                    <button
+                      type="button"
+                      class="btn bg-white select-btn btn-sm mr-1 fs-07"
+                      (click)="selectAllAvailableSection()"
+                    >
+                      {{
+                        productFields.length == 0 ? "SelectNone" : "SelectAll"
+                      }}
+                    </button>
+                    <button
+                      type="button"
+                      class="btn bg-white select-btn btn-sm fs-07"
+                    >
+                      New
+                    </button>
+                  </div>
+                </div>
+
+                <div class="card my-1">
+                  <div
+                    class="section-list bg-light px-2 my-2 custom-scroll-bar"
+                    cdkDropList
+                    [cdkDropListData]="productFields"
+                    (cdkDropListDropped)="dragDrop($event)"
+                  >
+                    <div
+                      class="section-box p-2 border rounded my-2 bg-white"
+                      cdkDrag
+                      *ngFor="let item of productFields"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col mr-3" style="background-color: #f5f5f5">
+                <div
+                  class="d-flex justify-content-between align-items-center py-1"
+                >
+                  <strong class="fw-700">Selected Fields</strong>
+                  <div class="d-flex align-items-center">
+                    <button
+                      type="button"
+                      class="btn bg-theme select-btn btn-sm mr-1 fs-07"
+                      (click)="sortAvailableFields()"
+                    >
+                      SortAll
+                    </button>
+                    <button
+                      type="button"
+                      class="btn bg-white select-btn btn-sm mr-1 fs-07"
+                      (click)="buttonSwitch()"
+                    >
+                      {{ selectNone ? "SelectNone" : "SelectAll" }}
+                    </button>
+                    <button
+                      type="button"
+                      class="btn bg-white select-btn btn-sm fs-07"
+                    >
+                      New
+                    </button>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="d-flex flex-column flex-fill fs-08 ml-1 mt-0">
+                    <div
+                      cdkDropList
+                      [cdkDropListData]="selectedProductFields"
+                      class="section-list bg-light px-2 my-2 custom-scroll-bar"
+                      (cdkDropListDropped)="dragDrop($event)"
+                    >
+                      <div
+                        class="section-box p-2 border rounded my-2 bg-white"
+                        cdkDrag
+                        *ngFor="let item of selectedProductFields"
+                      >
+                        {{ item?.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Areas -->
+        <div
+          class="tab-pane fade"
+          id="nav-areas"
+          role="tabpanel"
+          aria-labelledby="nav-areas-tab"
+        >
+          <div
+            class="d-flex align-items-center justify-content-end mb-1 mr-lg-n2"
+          >
+            <button
+              type="button"
+              class="btn btn-ghost rounded px-2 d-flex align-items-center"
+              data-toggle="modal"
+              data-target="#addAreasModal"
+            >
+              <img
+                class="mr-1"
+                src="assets/images/bgBrownAddIcon.svg"
+                style="width: 1.1rem"
+              />
+              <span class="fs-07"> New</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+              [disabled]="selectedAll.length > 0 ? false : true"
+              data-target="#deleteModal"
+              data-toggle="modal"
+            >
+              <img
+                class="mr-1"
+                src="assets/images/deleteBrownProductIcon.svg"
+                style="width: 1.1rem"
+              />
+              <span class="fs-07"> Delete</span>
+            </button>
+
+            <div class="search-container position-relative mr-2">
+              <img
+                src="assets/images/search-boxicon.svg"
+                class="d-block input-icon-right"
+              />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search here..."
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="searchValue"
+                (ngModelChange)="searchArea()"
+              />
+            </div>
+          </div>
+
+          <div class="row table-row mb-3">
+            <div class="col-12 table-responsive">
+              <table class="table table-container table-hover areas-table">
+                <thead>
+                  <tr class="bg-light">
+                    <th class="border-0" style="width: 0.5rem">
+                      <div
+                        class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+                      >
+                        <input
+                          type="checkbox"
+                          class="custom-control-input"
+                          id="chk"
+                          (change)="selectAllCheckboxArea($event)"
+                        />
+
+                        <label class="custom-control-label" for="chk"></label>
+                      </div>
+                    </th>
+                    <!-- <th class="border-0">#</th> -->
+                    <th class="border-0">Area Name</th>
+                    <th class="border-0">Area Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let area of areaData">
+                    <td class="w50 border-top-0">
+                      <div
+                        class="custom-control custom-checkbox checkbox-select"
+                      >
+                        <input
+                          type="checkbox"
+                          class="custom-control-input custom-select-allAreas"
+                          [id]="area.id"
+                          [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="area.isChecked"
+                          (click)="onSelect($event, area.id)"
+                        />
+                        <label
+                          class="custom-control-label"
+                          [for]="area.id"
+                        ></label>
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ area?.area_name }}
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ area?.area_type }}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget Tab -->
+        <div
+          class="tab-pane fade"
+          id="nav-budget"
+          role="tabpanel"
+          aria-labelledby="nav-budget-tab"
+        >
+          <div
+            class="d-flex align-items-center justify-content-end mb-1 mr-lg-n2"
+          >
+            <button
+              type="button"
+              class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+              data-toggle="modal"
+              data-target="#budgetTabModal"
+            >
+              <img
+                class="mr-1"
+                src="../../assets/images/bgBrownAddIcon.svg"
+                style="width: 1.1rem"
+              />
+              <span class="fs-07"> New</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-ghost rounded px-2 d-flex align-items-center"
+              [disabled]="selectedAll.length > 0 ? false : true"
+              data-target="#deleteModal"
+              data-toggle="modal"
+            >
+              <img
+                class="mr-1"
+                src="assets/images/deleteBrownProductIcon.svg"
+                style="width: 1.1rem"
+              />
+              <span class="fs-07"> Delete</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+              data-target="#deletePhaseModal1"
+              data-toggle="modal"
+            >
+              <img
+                class="mr-1"
+                src="../../assets/images/bgBrownAddIcon.svg"
+                style="width: 1.1rem"
+              />
+              <span class="fs-07"> Export Excel</span>
+            </button>
+
+            <div class="search-container position-relative mr-2">
+              <img
+                src="assets/images/search-boxicon.svg"
+                class="d-block input-icon-right"
+              />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search here..."
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="searchValue"
+                (ngModelChange)="searchBudget()"
+              />
+            </div>
+          </div>
+          <div class="row table-row mb-3">
+            <div class="col-12 table-responsive">
+              <table class="table table-container table-hover budgetTab-table">
+                <thead>
+                  <tr class="bg-light">
+                    <th class="border-0" style="width: 0.5rem">
+                      <div
+                        class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+                      >
+                        <input
+                          type="checkbox"
+                          class="custom-control-input"
+                          id="budgetChk"
+                          (change)="selectAllCheckboxBudget($event)"
+                        />
+
+                        <label
+                          class="custom-control-label"
+                          for="budgetChk"
+                        ></label>
+                      </div>
+                    </th>
+                    <th class="border-0">Index</th>
+                    <th class="border-0">Area Type</th>
+                    <th class="border-0">Area</th>
+                    <th class="border-0">Section</th>
+                    <th class="border-0">Category</th>
+                    <th class="border-0">Budget</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let budget of budgetData">
+                    <td class="w50 border-top-0">
+                      <div
+                        class="custom-control custom-checkbox checkbox-select"
+                      >
+                        <input
+                          type="checkbox"
+                          class="custom-control-input custom-select-allBudget"
+                          [id]="budget.id"
+                          [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="budget.isChecked"
+                          (click)="onSelect($event, budget.id)"
+                        />
+                        <label
+                          class="custom-control-label"
+                          [for]="budget.id"
+                        ></label>
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ budget?.index }}
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ budget?.area_type }}
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ budget?.area }}
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ budget?.section }}
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ budget?.category }}
+                      </div>
+                    </td>
+                    <td class="cursor-pointer border-top-0">
+                      <div class="system-table-container">
+                        {{ budget?.budget }}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap navs end -->
+
+    <div class="d-flex align-items-center justify-content-end mt-3">
+      <button
+        type="button"
+        class="btn btn-light mx-2 d-flex align-items-center"
+        (click)="cancelModal()"
+      >
+        <img
+          src="assets/images/cancelButton.svg"
+          class="mr-1"
+          style="width: 1.06rem"
+        />
+        <span class="fs-08">Cancel</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-theme d-flex align-items-center"
+        *ngIf="!isEdit"
+        (click)="createProductType()"
+        [disabled]="!productName.valid"
+      >
+        <img
+          src="assets/images/addProjectIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+        <span class="fs-08">Create</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-theme d-flex align-items-center"
+        *ngIf="isEdit"
+        (click)="onSave()"
+      >
+        <img
+          src="assets/images/addProjectIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+        <span class="fs-08">Save</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- New Areas Modal Code here -->
+<div
+  class="modal fade"
+  id="addAreasModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Area</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body mb-0">
+        <form action="">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="form-group mb-2">
+                  <label for="" class="mb-0 fw-500">Area Type</label>
+                  <ng-select
+                    [(ngModel)]="areaType"
+                    name="areaTypes"
+                    class="ng-select fs-08"
+                    [items]="areaTypes"
+                    bindLabel="area_type"
+                    bindValue="id"
+                    placeholder="Select area type"
+                  >
+                    <ng-option
+                      class="bg-white"
+                      *ngFor="let item of areaTypes"
+                      [value]="item.id"
+                      >{{ item?.area_type }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="form-group mt-2 mb-0">
+                  <label for="" class="mb-0 fw-500">Area Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Area Name"
+                    name=""
+                    id=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0 pr-4">
+        <button
+          type="button"
+          class="btn btn-light mx-2 d-flex align-items-center btn-sm"
+          data-dismiss="modal"
+        >
+          <img
+            src="assets/images/cancelButton.svg"
+            class="mr-1"
+            style="width: 1.06rem"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-theme d-flex align-items-center btn-sm"
+        >
+          <img
+            src="assets/images/addProjectIcon.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Create Room</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BudgetTab Modal Code here -->
+<div
+  class="modal fade"
+  id="budgetTabModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Budget</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="" class="mb-0 fw-500">Area Type</label>
+                  <ng-select
+                    [(ngModel)]="areaType"
+                    name="areaTypes"
+                    class="ng-select fs-08"
+                    [items]="areaTypes"
+                    bindLabel="area_type"
+                    bindValue="id"
+                    placeholder="Select area type"
+                  >
+                    <ng-option
+                      class="bg-white"
+                      *ngFor="let item of areaTypes"
+                      [value]="item.id"
+                      >{{ item?.area_type }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="form-group">
+                  <label for="" class="mb-0 fw-500">Section</label>
+                  <ng-select
+                    [(ngModel)]="budgetSection"
+                    class="ng-select fs-08"
+                    name="sections"
+                    [items]="sections"
+                    bindLabel="budget_section"
+                    bindValue="id"
+                    placeholder="Select section"
+                  >
+                    <ng-option
+                      class="bg-white"
+                      *ngFor="let item of sections"
+                      [value]="item.id"
+                      >{{ item?.budget_section }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="form-group">
+                  <label for="" class="mb-0 fw-500">Category</label>
+                  <ng-select
+                    class="ng-select fs-08"
+                    [(ngModel)]="budgetCategory"
+                    name="categories"
+                    [items]="categories"
+                    bindLabel="budget_category"
+                    bindValue="id"
+                    placeholder="Select category"
+                  >
+                    <ng-option
+                      class="bg-white"
+                      *ngFor="let item of categories"
+                      [value]="item.id"
+                    >
+                      {{ item?.budget_category }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+
+                <div class="form-group my-0">
+                  <label for="Usage" class="mb-0 fw-500">Usage</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-label="Amount (to the nearest dollar)"
+                      placeholder="0"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text">USD</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0 pr-4">
+        <button
+          type="button"
+          class="btn btn-light align-items-center d-flex btn-sm ml-2"
+          data-dismiss="modal"
+        >
+          <img
+            src="assets/images/cancelButton.svg"
+            class="mr-1"
+            style="width: 1.06rem"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme align-items-center d-flex btn-sm"
+        >
+          <img
+            src="assets/images/addProjectIcon.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Add</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deleteModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title fw-700 fs-09">Delete Product</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body fs-09">
+        <p>Are you sure you want to delete?</p>
+      </div>
+      <div class="modal-footer border-0 mb-0">
+        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1 mb-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button type="button" class="btn btn-theme btn-sm" data-dismiss="modal">
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1 mb-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

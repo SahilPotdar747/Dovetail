@@ -1,0 +1,25 @@
+.modal-title {
+  font-size: 1.5rem;
+}
+
+.modal-body {
+  font-size: 0.8rem;
+}
+
+.nav-item a {
+  background-color: var(--brown);
+}
+
+.upload-user-image {
+  width: 6.5rem;
+  height: 6.5rem;
+  background-color: var(--gray-2);
+  border: 1px dashed;
+}
+
+.upload-image-icon {
+  width: 3rem;
+  height: 3rem;
+  bottom: -1.8rem;
+  left: 1.8rem;
+}

@@ -1,0 +1,19 @@
+.modal-title {
+  font-size: 1.5rem;
+}
+
+.modal-body {
+  font-size: 0.8rem;
+}
+
+.nav-item a {
+  background-color: var(--brown);
+}
+
+.dropdown-buttons {
+  border-radius: 0 0.25rem 0.25rem 0 !important;
+}
+
+.form-control {
+  border-radius: 0.25rem 0 0 0.25rem !important;
+}

@@ -1,0 +1,46 @@
+<div
+  class="bg-blue-theme h-100 w-100 position-fixed d-flex align-items-center justify-content-center flex-column"
+>
+  <img src="assets/images/loginDovetailIcon.png" style="width: 19.11rem" />
+  <h5 class="text-white my-4">Interior Design Spec Development Made Easy</h5>
+  <div class="bg-white px-4 pt-4 login-form-container border-0">
+    <form #f="ngForm" (ngSubmit)="f.valid && submitLogin()">
+      <div class="form-group">
+        <input
+          type="email"
+          class="form-control"
+          id="userEmail"
+          [(ngModel)]="userLogin.email"
+          name="email"
+          #email="ngModel"
+          placeholder="Email Address"
+          required
+        />
+        <span class="fs-08 text-danger" *ngIf="f.submitted && !email.valid">
+          Email is required
+        </span>
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="userLogin.password"
+          name="password"
+          placeholder="Email Password"
+          #password="ngModel"
+          required
+        />
+        <span class="fs-08 text-danger" *ngIf="f.submitted && !password.valid">
+          Password is required
+        </span>
+      </div>
+      <div class="cursor-pointer fs-09 text-theme pb-2 float-right">
+        Forgot Password?
+      </div>
+      <button type="submit" class="btn btn-theme w-100 fs-07 py-3 mb-3">
+        Log In
+      </button>
+    </form>
+  </div>
+</div>

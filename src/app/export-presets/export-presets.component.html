@@ -1,0 +1,177 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 d-flex align-items-center justify-content-end mb-2">
+      <button
+        type="button"
+        class="btn btn-ghost rounded px-2 d-flex align-items-center"
+        (click)="openCreateNewModal()"
+      >
+        <img
+          src="assets/images/bgBrownAddIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+        <span class="fs-07">Add New</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-ghost rounded px-2 d-flex align-items-end mx-2"
+        data-target="#deleteExportPresetModal"
+        data-toggle="modal"
+        [disabled]="selectedAll.length > 0 ? false : true"
+      >
+        <img
+          class="mr-1"
+          src="assets/images/deleteBrownProductIcon.svg"
+          style="width: 1.1rem"
+        />
+        <span class="fs-07"> Delete</span>
+      </button>
+
+      <div class="search-container position-relative mr-2">
+        <img
+          src="assets/images/search-boxicon.svg"
+          class="d-block input-icon-right"
+        />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search here..."
+          [(ngModel)]="searchValue"
+          (ngModelChange)="searchExportPerset()"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 table-responsive custom-height mb-2">
+      <table class="table export-preset-table fs-08 border-top-0">
+        <thead class="d-table w-100">
+          <tr class="bg-light">
+            <th class="border-0">
+              <div
+                class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="selectAllCheckbox"
+                  (change)="selectAllCheckbox($event)"
+                  name="selectAllCheckbox"
+                />
+                <label
+                  class="custom-control-label"
+                  for="selectAllCheckbox"
+                ></label>
+              </div>
+            </th>
+            <th class="border-0">Name</th>
+          </tr>
+        </thead>
+        <tbody
+          class="d-block overflow-auto custom-table-body custom-scroll-bar"
+        >
+          <tr class="d-table w-100 fs-07" *ngFor="let item of filteredData">
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="item?.id"
+                  (click)="onSelect($event, item?.id)"
+                />
+                <label class="custom-control-label" [for]="item?.id"></label>
+              </div>
+            </td>
+            <td
+              class="cursor-pointer border-top-0"
+              (click)="editExportPresetModal()"
+            >
+              <div>{{ item?.productCategory_name }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <nav class="col-12 d-flex align-items-center justify-content-between">
+      <div class="d-flex text-secondary fs-08">
+        <span>{{ selectedAll.length }} Total /</span>
+        <span>{{ exportPreset.length }} selected</span>
+      </div>
+      <ul class="pagination mb-0">
+        <img src="assets/images/paginateToFirstPage.svg" style="width: 2rem" />
+        <img
+          src="assets/images/paginateToPreviousPage.svg"
+          class="ml-1"
+          style="width: 2rem"
+        />
+        <li class="page-item mx-1">
+          <a class="page-link export-preset-page-link" href="#">1</a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link export-preset-page-link export-preset-page-item"
+            href="#"
+            >2</a
+          >
+        </li>
+        <li class="page-item mx-1">
+          <a class="page-link export-preset-page-link" href="#">3</a>
+        </li>
+        <li class="page-item mr-1">
+          <a class="page-link export-preset-page-link" href="#">4</a>
+        </li>
+        <li class="page-item mr-1">
+          <a class="page-link export-preset-page-link" href="#">5</a>
+        </li>
+        <img
+          src="assets/images/paginateToNextPage.svg"
+          class="mr-1"
+          style="width: 2rem"
+        />
+        <img src="assets/images/paginateToLastPage.svg" style="width: 2rem" />
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deleteExportPresetModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title fw-500">Delete Current Export Preset</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body fs-09">
+        <p>Are you sure you want to delete export_preset_name ?</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button type="button" class="btn btn-theme" data-dismiss="modal">
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

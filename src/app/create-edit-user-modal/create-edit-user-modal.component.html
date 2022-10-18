@@ -1,0 +1,186 @@
+<div
+  class="modal-header d-flex align-items-center justify-content-between border-bottom py-2 pl-4"
+>
+  <div class="modal-title fw-700" *ngIf="!isEdit">Create New User</div>
+  <div class="modal-title fw-700" *ngIf="isEdit">Edit User</div>
+</div>
+
+<div class="modal-body">
+  <form
+    #f="ngForm"
+    (ngSubmit)="f.valid && !isEdit ? createUser() : updateUser()"
+  >
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-8">
+          <div class="form-group">
+            <label for="fullName" class="mb-0"
+              >Full Name <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="fullName"
+              placeholder="Enter Full Name"
+              [(ngModel)]="userModal.name"
+              name="name"
+              #name="ngModel"
+              required
+            />
+            <span class="fs-08 text-danger" *ngIf="f.submitted && !name.valid">
+              Full Name is required
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="emailAddress" class="mb-0"
+              >Email <span class="text-danger" *ngIf="!isEdit">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="emailAddress"
+              placeholder="Enter Email Address"
+              [(ngModel)]="userModal.email"
+              name="email"
+              #email="ngModel"
+              pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+              required
+            />
+            <div
+              class="fs-08 text-danger"
+              *ngIf="
+            (f.submitted && !email.valid && !isEdit) ||
+            (email.errors && email.errors?.['pattern'])
+          "
+            >
+              Please enter a Valid Email Address
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber" class="mb-0">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phoneNumber"
+              placeholder="Enter Phone Number"
+              minlength="10"
+              maxlength="10"
+              [pattern]="patternnum"
+              (input)="numbersOnlyValidator($event)"
+              [(ngModel)]="userModal.phone_number"
+              name="phoneNumber"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword" class="mb-0"
+              >New Password
+              <span class="text-danger" *ngIf="!isEdit">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="newPassword"
+              placeholder="New Password"
+              [(ngModel)]="userModal.password"
+              name="password"
+              #password="ngModel"
+              required
+              (change)="checkPassword()"
+              (focusout)="checkPassword()"
+            />
+            <span
+              class="fs-08 text-danger"
+              *ngIf="f.submitted && !password.valid && !isEdit"
+            >
+              Please enter new password
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword" class="mb-0"
+              >Confirm Password
+              <span class="text-danger" *ngIf="!isEdit">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              [(ngModel)]="userModal.confirm_password"
+              name="confirm_password"
+              #confirm_password="ngModel"
+              required
+              (change)="checkPassword()"
+              (focusout)="checkPassword()"
+            />
+            <span
+              class="fs-08 text-danger"
+              *ngIf="
+                checkPasswordValidation ||
+                (f.submitted && !confirm_password.valid && !isEdit)
+              "
+            >
+              Password does not match
+            </span>
+          </div>
+        </div>
+
+        <div class="col-4 d-flex justify-content-center align-items-start">
+          <div class="rounded-circle upload-user-image position-relative mt-3">
+            <img
+              src="assets/images/editUploadNewUser.svg"
+              class="position-absolute upload-image-icon"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="col-12 d-flex align-items-center justify-content-end">
+          <button
+            type="button"
+            class="btn btn-light mx-2 d-flex align-items-center"
+            (click)="closeModal()"
+          >
+            <img
+              src="assets/images/cancelButton.svg"
+              class="mr-1"
+              style="width: 1.06rem"
+            />
+            <span class="fs-08">Cancel</span>
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-theme d-flex align-items-center"
+            *ngIf="!isEdit"
+          >
+            <img
+              src="assets/images/addProjectIcon.svg"
+              style="width: 1.06rem"
+              class="mr-1"
+            />
+
+            <span class="fs-08">Create</span>
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-theme d-flex align-items-center"
+            *ngIf="isEdit"
+          >
+            <img
+              src="assets/images/saveCheckIcon.svg"
+              style="width: 1.06rem"
+              class="mr-1"
+            />
+
+            <span class="fs-08">Save</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

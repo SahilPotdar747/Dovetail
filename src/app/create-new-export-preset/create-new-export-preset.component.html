@@ -1,0 +1,350 @@
+<div
+  class="modal-header d-flex align-items-center justify-content-between border-bottom pb-1"
+>
+  <div class="modal-title fw-700" *ngIf="!isEdit">Create New Export Preset</div>
+  <div class="modal-title fw-700" *ngIf="isEdit">Edit Export Preset</div>
+</div>
+
+<div class="modal-body px-3">
+  <ul class="nav nav-tabs py-2 border-bottom">
+    <li class="nav-item">
+      <a class="px-3 py-2 fs-09 rounded-top text-white">Basic Info</a>
+    </li>
+  </ul>
+  <form class="px-2">
+    <div class="my-2">
+      <label class="control-label fw-500"
+        >Name <span class="text-danger">*</span></label
+      >
+      <div class="">
+        <input
+          type="text"
+          id="basicInfoName"
+          name="basicInfoName"
+          placeholder="Enter Name"
+          class="form-control"
+          required
+          minlength="2"
+          maxlength="200"
+        />
+      </div>
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex">
+      <input
+        type="checkbox"
+        id="showToBuilder"
+        class="custom-control-input"
+        name="showToBuilder"
+        checked
+      />
+      <label
+        class="custom-control-label d-flex align-items-center"
+        for="showToBuilder"
+        >Show To Builder
+      </label>
+    </div>
+
+    <div class="checkbox my-2">
+      <label class="control-label">Include Discussion </label>
+      <ng-select
+        [(ngModel)]="selectedCar"
+        name="cars"
+        class="form-control"
+        [items]="cars"
+        bindLabel="name"
+        bindValue="id"
+        name="cars"
+      >
+        <ng-option *ngFor="let car of cars" [value]="car.id">{{
+          car.name
+        }}</ng-option>
+      </ng-select>
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex">
+      <input
+        type="checkbox"
+        id="includePropertyData"
+        class="custom-control-input"
+        name="includePropertyData"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center"
+        for="includePropertyData"
+      >
+        Include Property Core Data
+      </label>
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex my-2">
+      <input
+        type="checkbox"
+        id="excludePricing"
+        class="custom-control-input"
+        name="excludePricing"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center"
+        for="excludePricing"
+      >
+        Exclude pricing
+      </label>
+    </div>
+
+    <div class="fw-500 my-3">
+      You can place a mix of parameters within each rule. For a material to be
+      selected based on a rule, the material needs to adhere to all parameters
+      in that rule. If you want to allow various combinations of possible
+      adhered to parameters, you can add more rules using the OR button
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex">
+      <input
+        type="checkbox"
+        id="optionalCheckBox"
+        class="custom-control-input"
+        name="optionalCheckBox"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center"
+        for="optionalCheckBox"
+      >
+        Optional
+      </label>
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex my-2">
+      <input
+        type="checkbox"
+        id="neededCheckBox"
+        class="custom-control-input"
+        name="neededCheckBox"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center"
+        for="neededCheckBox"
+      >
+        Needed
+      </label>
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex mb-3">
+      <input
+        type="checkbox"
+        id="excludeSections"
+        class="custom-control-input"
+        name="excludeSections"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center"
+        for="excludeSections"
+        >Exclude Sections without Materials regardless of Documents
+      </label>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row border rounded p-2">
+        <div class="col-sm-12 col-md-4">
+          <div class="">
+            <label for="roomTypes" class="fw-500"> Room Types </label>
+            <div class="d-flex align-items-center">
+              <ng-select
+                class="form-control"
+                [items]="cars"
+                bindLabel="name"
+                bindValue="id"
+                name="selectedCar"
+                [(ngModel)]="selectedCar"
+              >
+                <ng-option *ngFor="let car of cars" [value]="car.id">{{
+                  car.name
+                }}</ng-option>
+              </ng-select>
+              <button
+                class="btn py-1 btn-success dropdown-buttons"
+                [disabled]="selectedCar ? false : true"
+              >
+                <img
+                  src="assets/images/addProjectIcon.svg"
+                  style="width: 1rem"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div class="">
+            <label for="sectionDropDown" class="fw-500"> Section </label>
+            <div class="d-flex align-items-center">
+              <ng-select
+                [(ngModel)]="selectedCar"
+                name="cars"
+                class="form-control"
+                [items]="cars"
+                bindLabel="name"
+                bindValue="id"
+                name="cars"
+                [(ngModel)]="selectedCar"
+              >
+                <ng-option *ngFor="let car of cars" [value]="car.id">{{
+                  car.name
+                }}</ng-option>
+              </ng-select>
+              <button
+                class="btn py-1 btn-success dropdown-buttons"
+                [disabled]="selectedCar ? false : true"
+              >
+                <img
+                  src="assets/images/addProjectIcon.svg"
+                  style="width: 1rem"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div class="">
+            <label for="productTypes" class="fw-500"> Product Type </label>
+            <div class="d-flex align-items-center">
+              <ng-select
+                [(ngModel)]="selectedCar"
+                name="cars"
+                class="form-control"
+                [items]="cars"
+                bindLabel="name"
+                bindValue="id"
+                name="cars"
+                [(ngModel)]="selectedCar"
+              >
+                <ng-option *ngFor="let car of cars" [value]="car.id">{{
+                  car.name
+                }}</ng-option>
+              </ng-select>
+              <button class="btn py-1 btn-success dropdown-buttons">
+                <img
+                  src="assets/images/addProjectIcon.svg"
+                  style="width: 1rem"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div class="">
+            <label for="manufacturerDropDown" class="fw-500">
+              Manufacturer
+            </label>
+            <div class="d-flex align-items-center">
+              <ng-select
+                [(ngModel)]="selectedCar"
+                name="cars"
+                class="form-control"
+                [items]="cars"
+                bindLabel="name"
+                bindValue="id"
+                name="cars"
+                [(ngModel)]="selectedCar"
+              >
+                <ng-option *ngFor="let car of cars" [value]="car.id">{{
+                  car.name
+                }}</ng-option>
+              </ng-select>
+              <button class="btn py-1 btn-success dropdown-buttons">
+                <img
+                  src="assets/images/addProjectIcon.svg"
+                  style="width: 1rem"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div class="">
+            <label for="vendorDropDown" class="fw-500"> Vendor </label>
+            <div class="d-flex align-items-center">
+              <ng-select
+                [(ngModel)]="selectedCar"
+                name="cars"
+                class="form-control"
+                [items]="cars"
+                bindLabel="name"
+                bindValue="id"
+                name="cars"
+                [(ngModel)]="selectedCar"
+              >
+                <ng-option *ngFor="let car of cars" [value]="car.id">{{
+                  car.name
+                }}</ng-option>
+              </ng-select>
+              <button class="btn py-1 btn-success dropdown-buttons">
+                <img
+                  src="assets/images/addProjectIcon.svg"
+                  style="width: 1rem"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-8">
+          <div class="d-flex flex-column">
+            <label for="rulesInput" class="fw-500">Rules</label>
+            <div class="d-flex align-items-center">
+              <input type="text" class="form-control" />
+              <button class="btn border rounded mx-2 d-flex align-items-center">
+                <img
+                  src="assets/images/bgBrownAddIcon.svg"
+                  style="width: 1rem"
+                  class="pr-1"
+                />
+                <span>OR</span>
+              </button>
+              <button class="btn border rounded d-flex align-items-center">
+                <img
+                  src="assets/images/sidebarSystemActive.svg"
+                  style="width: 1rem"
+                  class="pr-1"
+                />
+                <span>Test</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end mt-3">
+      <button
+        type="button"
+        (click)="cancelModal()"
+        class="btn btn-light mr-2 d-flex align-items-center fs-08 border-0"
+      >
+        <img
+          src="assets/images/cancelButton.svg"
+          class="mr-1"
+          style="width: 1.06rem"
+        />
+        <span>Cancel</span>
+      </button>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-theme" (click)="onSave()">
+          <div class="d-flex align-items-center" *ngIf="!isEdit">
+            <img
+              src="assets/images/addProjectIcon.svg"
+              class="mr-1"
+              style="width: 1.06rem"
+            />
+            <span class="fs-08">Create</span>
+          </div>
+
+          <div class="d-flex align-items-center" *ngIf="isEdit">
+            <img
+              src="assets/images/saveCheckIcon.svg"
+              class="mr-1"
+              style="width: 1.06rem"
+            />
+            <span class="fs-08">Save</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,29 @@
+.delete-modal-header {
+  font-size: 1rem !important;
+}
+.phase-table td{
+  vertical-align: middle !important;
+  font-size: 0.71rem;
+  padding: 0.3rem 0 0.3rem 0.8rem !important;
+}.btn-type{
+  width: 5.7rem;
+}
+.phase-page-link {
+  border-radius: 0.44rem;
+  height: 2.1rem;
+  width: 2rem;
+  font-size: 0.66rem;
+  padding-top: 0.6rem;
+  color: #c2c6c5;
+}
+.phase-page-item {
+  background-color: var(--brown);
+  color: white;
+}
+.phase-table thead tr th:first-child,
+.phase-table tbody tr td:first-child {
+  width: 3rem;
+}
+.custom-height{
+  height: calc(100vh - 11.25rem);
+}

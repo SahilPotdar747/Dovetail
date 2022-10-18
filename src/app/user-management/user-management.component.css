@@ -1,0 +1,49 @@
+.export-preset-page-link {
+  border-radius: 0.44rem;
+  height: 2.1rem;
+  width: 2rem;
+  font-size: 0.66rem;
+  padding-top: 0.6rem;
+  color: #c2c6c5;
+}
+
+.export-preset-page-item {
+  background-color: var(--brown);
+  color: white;
+}
+
+.custom-table-body {
+  height: calc(100vh - 15rem);
+}
+
+.user-management-table thead tr th:first-child,
+.user-management-table tbody tr td:first-child {
+  width: 2rem;
+}
+
+.table-image {
+  width: 4rem;
+  height: 4rem;
+  background-color: #c2c6c5;
+  transition: transform 0.2s;
+}
+
+.user-management-table td,
+.user-management-table th {
+  vertical-align: middle !important;
+}
+
+.badge-theme {
+  background-color: #fcf3ea;
+  color: var(--brown);
+}
+
+.table-image:hover {
+  transform: scale(2);
+  z-index: 3;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 15%) !important;
+}
+
+.custom-width {
+  width: 12rem;
+}

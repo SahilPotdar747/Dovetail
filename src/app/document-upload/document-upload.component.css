@@ -1,0 +1,13 @@
+.attached-here-div {
+  border: 1px dashed #c2c6c5;
+  border-radius: 6px;
+  padding: 0rem 1rem 0rem 1rem;
+  margin: 0;
+}
+label {
+  display: inline-block;
+  margin-bottom: 0.1rem;
+}
+.image-upload > input {
+  display: none;
+}

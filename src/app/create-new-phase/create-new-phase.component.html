@@ -1,0 +1,234 @@
+<div
+  class="modal-header d-flex align-items-center justify-content-between border-bottom pb-1"
+>
+  <div class="modal-title fw-700" *ngIf="!isEdit"> New Phase</div>
+  <div class="modal-title fw-700" *ngIf="isEdit">Edit Phase</div>
+  <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="cancelModal()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+
+<div class="modal-body fs-08 px-3">
+  
+  <ul class="nav nav-tabs " role="tablist">
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        data-toggle="tab"
+        href="#tabs-1"
+        role="tab"
+        
+        >Basic Info</a
+      >
+    </li>
+   </ul>
+  <form class="" name="phaseEditorForm" novalidate>
+    <div class="my-2">
+      <label class="fw-500" for="shortName"
+        >Short Name <span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="shortName"
+        name="shortName"
+        placeholder="Enter phase short name"
+        class="form-control placeholder-name"
+        required
+      />
+    </div>
+
+    <div class="">
+      <label class="fw-500" for="phaseName"
+        >Phase Name <span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="phaseName"
+        name="phaseName"
+        placeholder="Enter phase name"
+        class="form-control placeholder-name"
+        required
+      />
+    </div>
+
+    <div class="my-2">
+      <label class="fw-500" for="stateDescription"> Description</label>
+      <input
+        type="text"
+        id="stateDescription"
+        name="stateDescription"
+        placeholder="Enter phase description"
+        class="form-control placeholder-name"
+      />
+    </div>
+
+    <div class="">
+      <label class="fw-500" for="type"> Phase Type </label>
+
+      
+<div class="col-8 d-flex mb-3 pl-0" style="flex-direction: column;">
+  <div class="custom-control custom-radio d-flex">
+    <input
+      type="radio"
+      id="customRadio1"
+      name="customRadio"
+      class="custom-control-input"
+    />
+    <label
+      class="
+        custom-control-label
+        basic-info-header
+        d-flex
+        align-items-center
+      "
+      for="customRadio1"
+      >Not Started</label
+    >
+  </div>
+  <div class="custom-control custom-radio d-flex">
+    <input
+      type="radio"
+      id="customRadio2"
+      name="customRadio"
+      class="custom-control-input"
+    />
+    <label
+      class="
+        custom-control-label
+        basic-info-header
+        d-flex
+        align-items-center
+      "
+      for="customRadio2"
+      >On Going</label
+    >
+  </div>
+  <div class="custom-control custom-radio d-flex">
+    <input
+      type="radio"
+      id="customRadio3"
+      name="customRadio"
+      class="custom-control-input"
+    />
+    <label
+      class="
+        custom-control-label
+        basic-info-header
+        d-flex
+        align-items-center
+      "
+      for="customRadio3"
+      >Completed</label
+    >
+  </div>
+</div>
+
+      
+    </div>
+
+    <div class="my-2">
+      <div class="custom-control custom-checkbox d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="shownOnMyTasks"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center"
+          for="shownOnMyTasks"
+          >Properties with this Phase can be shown on "My Properties"</label
+        >
+      </div>
+    </div>
+
+    <div class="">
+      <div class="custom-control custom-checkbox d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="lockedPrintAndEdit"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center"
+          for="lockedPrintAndEdit"
+          >Properties with this status can be shown on "My Products"
+        </label>
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <div class="custom-control custom-checkbox d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="shownOnMyProducts"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center"
+          for="shownOnMyProducts"
+          >Lock Properties from changes when this status</label
+        >
+      </div>
+    </div>
+    <hr class="edit-last-separator-hr " />
+    <div class="d-flex align-items-center justify-content-end mt-3">
+      <button type="button" class="btn share-link btn-link btn_link">
+        <img
+        src="../../assets/images/share-icon (2).svg"
+        style="width: 0.55rem"
+      />
+    
+        <span class="fs-07 ml-1 share-link">Get Shareable Link</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-light mx-2 d-flex align-items-center"
+        (click)="cancelModal()"
+      >
+        <img
+          src="assets/images/cancelButton.svg"
+          class="mr-1"
+          style="width: 1.06rem"
+        />
+        <span class="fs-07">Cancel</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-theme d-flex align-items-center"
+        *ngIf="!isEdit"
+        (click)="onSave()"
+      >
+        <img
+          src="assets/images/addProjectIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+
+        <span class="fs-07">Create</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-theme d-flex align-items-center"
+        *ngIf="isEdit"
+        (click)="onSave()"
+      >
+        <img
+          src="assets/images/saveCheckIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+
+        <span class="fs-07">Save</span>
+      </button>
+    </div>
+  </form>
+</div>

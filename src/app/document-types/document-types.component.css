@@ -1,0 +1,30 @@
+.export-preset-page-link {
+  border-radius: 0.44rem;
+  height: 2.1rem;
+  width: 2rem;
+  font-size: 0.66rem;
+  padding-top: 0.6rem;
+  color: #c2c6c5;
+}
+
+.export-preset-page-item {
+  background-color: var(--brown);
+  color: white;
+}
+.phases-table td {
+  padding: 0.3rem 0 0.3rem 0.8rem !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid var(--gray-4);
+}
+
+.phases-table thead tr th:first-child,
+.phases-table tbody tr td:first-child {
+  width: 3rem;
+}
+
+.phases-table thead tr th {
+  vertical-align: middle !important;
+}
+.table-height{
+height: calc(100vh - 10rem);
+}

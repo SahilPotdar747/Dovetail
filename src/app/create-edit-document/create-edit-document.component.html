@@ -1,0 +1,312 @@
+<div
+  class="modal-header d-flex align-items-center justify-content-between border-bottom pb-1"
+>
+  <div class="modal-title fw-700" *ngIf="!isEdit">Create Document Type</div>
+  <div class="modal-title fw-700" *ngIf="isEdit">Edit Document Type</div>
+</div>
+
+<div class="modal-body">
+  <span class="btn-theme py-2 px-3 fs-08 rounded-top">Basic Info</span>
+  <form class="mt-2" #f="ngForm" (ngSubmit)="f.valid && submitForm()">
+    <span class="fw-700 fs-08">Type</span>
+    <div class="d-flex mb-1">
+      <div class="custom-control custom-radio d-flex">
+        <input
+          type="radio"
+          id="customRadio1"
+          name="customRadio"
+          class="custom-control-input"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customRadio1"
+          >File</label
+        >
+      </div>
+
+      <div class="custom-control custom-radio d-flex mx-5">
+        <input
+          type="radio"
+          id="customRadio2"
+          name="customRadio"
+          class="custom-control-input"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customRadio2"
+          >Note</label
+        >
+      </div>
+
+      <div class="custom-control custom-radio d-flex">
+        <input
+          type="radio"
+          id="customRadio3"
+          name="customRadio"
+          class="custom-control-input"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customRadio3"
+          >Area Map</label
+        >
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <div class="">
+        <label class="fs-08 mb-1 fw-700">
+          Name<span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Process Name"
+          [(ngModel)]="documentTypes.name"
+          name="name"
+          #name="ngModel"
+          (focusout)="checkNameValidation(documentTypes.name)"
+          required
+        />
+        <span
+          class="fs-08 text-danger"
+          *ngIf="(f.submitted && !name.valid) || formNameValidation"
+        >
+          First Name is required
+        </span>
+      </div>
+
+      <div class="custom-control custom-checkbox my-1 d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck1"
+          [(ngModel)]="documentTypes.availableInBuilderMode"
+          name="availableInBuilderMode"
+          #availableInBuilderMode="ngModel"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customCheck1"
+          >Available in builder Mode</label
+        >
+      </div>
+
+      <div class="custom-control custom-checkbox d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck2"
+          [(ngModel)]="documentTypes.builderCanAdd"
+          name="builderCanAdd"
+          #builderCanAdd="ngModel"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customCheck2"
+          >Builder Can Add</label
+        >
+      </div>
+
+      <div class="custom-control custom-checkbox my-1 d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck3"
+          [(ngModel)]="documentTypes.availableInVendorMode"
+          name="availableInVendorMode"
+          #availableInVendorMode="ngModel"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customCheck3"
+          >Available in Manufacturer/ Vendor Mode</label
+        >
+      </div>
+
+      <div class="custom-control custom-checkbox d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck4"
+          [(ngModel)]="documentTypes.availableInSelectorMode"
+          name="availableInSelectorMode"
+          #availableInSelectorMode="ngModel"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customCheck4"
+          >Available in Selector Mode</label
+        >
+      </div>
+
+      <div class="custom-control custom-checkbox my-1 d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck5"
+          [(ngModel)]="documentTypes.includedInProductCard"
+          name="includedInProductCard"
+          #includedInProductCard="ngModel"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customCheck5"
+          >Include in Product Card</label
+        >
+      </div>
+
+      <div class="custom-control custom-checkbox d-flex">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck6"
+          [(ngModel)]="documentTypes.includedInHomeownerExport"
+          name="includedInHomeownerExport"
+          #includedInHomeownerExport="ngModel"
+        />
+        <label
+          class="custom-control-label d-flex align-items-center fs-08"
+          for="customCheck6"
+          >Include in Homeowner Export</label
+        >
+      </div>
+    </div>
+
+    <div class="fw-700 fs-08">Allow File Type</div>
+    <div class="d-flex align-items-center flex-wrap mb-2">
+      <div class="mr-3" *ngFor="let item of allowFileType">
+        <div
+          class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+        >
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [id]="item._id"
+            (click)="selectedFileId(item.name)"
+            name="documentTypes"
+            [checked]="item.isChecked"
+          />
+          <label
+            class="custom-control-label d-flex align-items-center fs-08"
+            [for]="item._id"
+            >{{ item.name }}</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="fw-700 fs-08">Functional Area Contexts</div>
+    <div class="d-flex align-items-center flex-wrap mb-2">
+      <div class="mr-3" *ngFor="let item of functionalAreaContexts">
+        <div
+          class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+        >
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [id]="item._id"
+            (click)="selectedfunctionalAreaContexts(item.name)"
+            name="documentTypes"
+            [checked]="item.isChecked"
+          />
+          <label
+            class="custom-control-label d-flex align-items-center fs-08"
+            [for]="item._id"
+            >{{ item.name }}</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="customCheck20"
+        [(ngModel)]="documentTypes.isActive"
+        name="isActive"
+        #isActive="ngModel"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center fs-08"
+        for="customCheck20"
+        >Is Active</label
+      >
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex my-2">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="customCheck21"
+        [(ngModel)]="documentTypes.isAppendix"
+        name="isAppendix"
+        #isAppendix="ngModel"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center fs-08"
+        for="customCheck21"
+        >Is Appendix</label
+      >
+    </div>
+
+    <div class="custom-control custom-checkbox d-flex">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="customCheck22"
+        [(ngModel)]="documentTypes.canExportedSeparatedPDF"
+        name="canExportedSeparatedPDF"
+        #canExportedSeparatedPDF="ngModel"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center fs-08"
+        for="customCheck22"
+        >Can be Exported in separated PDF</label
+      >
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end mt-3">
+      <button
+        type="button"
+        class="btn btn-light mx-2 d-flex align-items-center"
+        (click)="closeModal()"
+      >
+        <img
+          src="assets/images/cancelButton.svg"
+          class="mr-1"
+          style="width: 1.06rem"
+        />
+        <span class="fs-08">Cancel</span>
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-theme d-flex align-items-center"
+        *ngIf="!isEdit"
+      >
+        <img
+          src="assets/images/addProjectIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+
+        <span class="fs-08">Create</span>
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-theme d-flex align-items-center"
+        *ngIf="isEdit"
+      >
+        <img
+          src="assets/images/addProjectIcon.svg"
+          style="width: 1.06rem"
+          class="mr-1"
+        />
+        <span class="fs-08">Save</span>
+      </button>
+    </div>
+  </form>
+</div>

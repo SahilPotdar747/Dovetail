@@ -1,0 +1,214 @@
+<div class="px-3">
+  <div class="d-flex align-items-center justify-content-end">
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+    >
+      <img
+        class="mr-1"
+        src="../../assets/images/bgBrownAddIcon.svg"
+        style="width: 1.1rem"
+      />
+      <span class="fs-07"> Export</span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center"
+      (click)="openCreateNewModal()"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/bgBrownAddIcon.svg"
+        style="width: 1rem"
+      />
+      <span class="fs-07">Add New</span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+      data-target="#deletePhaseModal"
+      data-toggle="modal"
+      [disabled]="selectedAll.length > 0 ? false : true"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/deleteBrownProductIcon.svg"
+        style="width: 1.1rem"
+      />
+      <span class="fs-07"> Delete</span>
+    </button>
+
+    <div class="search-container position-relative mr-2">
+      <img
+        src="assets/images/search-boxicon.svg"
+        class="d-block input-icon-right"
+      />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search here..."
+        [(ngModel)]="searchValue"
+        (ngModelChange)="searchFields($event)"
+      />
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col-12 table-responsive custom-table-height custom-scroll-bar">
+      <table class="table table-hover">
+        <thead>
+          <tr class="bg-light fs-08">
+            <th class="border-0">
+              <div
+                class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck"
+                  (change)="selectAllCheckbox($event)"
+                />
+                <label class="custom-control-label" for="customCheck"></label>
+              </div>
+            </th>
+
+            <th class="border-0 align-top">Project Status</th>
+            <th class="border-0 align-top">Name</th>
+            <th class="border-0 align-top">Display Label</th>
+            <th class="border-0 align-top">Functional Area</th>
+            <th class="border-0 align-top">Type</th>
+            <th class="border-0 align-top">Fixed Field</th>
+            <th class="border-0 align-top">Is Multi</th>
+            <th class="border-0 align-top">Is Required</th>
+            <th class="border-0 align-top">Builder Name</th>
+            <th class="border-0 align-top">Vendor</th>
+          </tr>
+        </thead>
+
+        <tbody class="fs-07">
+          <tr *ngFor="let field of fieldsData?.results" class="cursor-pointer">
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="field._id"
+                  (click)="onSelect($event, field)"
+                  [(ngModel)]="field.isChecked"
+                />
+                <label class="custom-control-label" [for]="field._id"></label>
+              </div>
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              <u class="select-btn">{{ field?.index }}</u>
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.name }}
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.displayLabel }}
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.businessObject }}
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.type }}
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              <span>{{ field?.isFixedField != null ? "Yes" : "No" }}</span>
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              <span>
+                {{ field?.isMulti == true ? "Yes" : "No" }}
+              </span>
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.isRequired == true ? "Yes" : "No" }}
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.showToBuilder == true ? "Yes" : "No" }}
+            </td>
+
+            <td (click)="editPhasesModal(field)" class="border-top-0">
+              {{ field?.showToVendor == true ? "Yes" : "No" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-12 d-flex align-items-center justify-content-between">
+    <div class="d-flex text-secondary fs-08 mb-3">
+      <span>{{ selectedAll.length }} Selected/</span>
+      <span>{{ fieldsData?.results?.length }} Total</span>
+    </div>
+    <pagination
+      [boundaryLinks]="true"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+      [totalItems]="fieldsData?.totalResults"
+      [itemsPerPage]="fieldsData?.limit"
+      [(ngModel)]="currentPage"
+      (pageChanged)="pageChanged($event)"
+      [maxSize]="5"
+    >
+    </pagination>
+  </div>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deletePhaseModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title fs-09 fw-700 pb-1">Delete Product</h5>
+      </div>
+      <div class="modal-body fs-09">
+        <div>
+          Are you sure you want to delete custom field(s):
+          <span *ngFor="let item of deletePropertyField"
+            >{{ item?.name }}
+            <span *ngIf="deletePropertyField.length > 1">, </span></span
+          >
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">
+          <img
+            src="assets/images/cancelButton.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+          <span class="fs-08">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme btn-sm"
+          data-dismiss="modal"
+          (click)="deleteArea()"
+        >
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 1rem"
+          />
+          <span class="fs-08">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

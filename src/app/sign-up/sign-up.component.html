@@ -1,0 +1,171 @@
+<div
+  class="bg-blue-theme h-100 w-100 position-fixed d-flex align-items-center justify-content-center flex-column"
+>
+  <img src="assets/images/loginDovetailIcon.png" style="width: 19.11rem" />
+  <h5 class="text-white my-4">Interior Design Spec Development Made Easy</h5>
+  <div class="px-4 pt-4 signup-form-container border-0">
+    <form #f="ngForm" (ngSubmit)="f.valid && submitSignUp()">
+      <div class="form-group mb-2 d-flex align-items-center">
+        <div class="d-flex flex-column mr-1">
+          <input
+            type="text"
+            class="form-control border-0"
+            id="firstName"
+            placeholder=" First Name"
+            [(ngModel)]="userRegister.firstName"
+            required
+            name="firstName"
+            #firstName="ngModel"
+          />
+          <span
+            *ngIf="f.submitted"
+            class="glyphicon form-control-feedback"
+            [ngClass]="{
+              'glyphicon-ok ': firstName.valid,
+              'glyphicon-remove': !firstName.valid
+            }"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="fs-08 text-danger"
+            *ngIf="f.submitted && !firstName.valid"
+          >
+            First Name is required
+          </span>
+        </div>
+
+        <div class="d-flex flex-column ml-1">
+          <input
+            type="text"
+            class="form-control border-0"
+            id="lastName"
+            placeholder=" Last Name"
+            [(ngModel)]="userRegister.lastName"
+            required
+            name="lastName"
+            #lastName="ngModel"
+          /><span
+            *ngIf="f.submitted"
+            class="glyphicon form-control-feedback"
+            [ngClass]="{
+              'glyphicon-ok ': lastName.valid,
+              'glyphicon-remove': !lastName.valid
+            }"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="fs-08 text-danger"
+            *ngIf="f.submitted && !lastName.valid"
+          >
+            Last Name is required
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group mb-2">
+        <input
+          type="email"
+          class="form-control border-0"
+          id="email"
+          placeholder=" Email Address"
+          [(ngModel)]="userRegister.email"
+          required
+          name="email"
+          #email="ngModel"
+          pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+        />
+        <div
+          class="fs-08 text-danger"
+          *ngIf="
+            (f.submitted && !email.valid) ||
+            (email.errors && email.errors?.['pattern'])
+          "
+        >
+          Please enter a Valid Email Address
+        </div>
+      </div>
+
+      <div class="form-group mb-2 position-relative">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control border-0"
+          id="password"
+          placeholder=" Password"
+          [(ngModel)]="userRegister.password"
+          required
+          name="password"
+          #password="ngModel"
+          (change)="checkPassword()"
+          (focusout)="checkPassword()"
+        />
+        <div
+          class="position-absolute show-password-icon cursor-pointer"
+          (click)="showPassword = !showPassword"
+        >
+          <img
+            *ngIf="!showPassword"
+            src="assets/images/hidePasswordEyeIcon.svg"
+            style="width: 1rem"
+          />
+          <img
+            *ngIf="showPassword"
+            src="assets/images/showPasswordEyeIcon.svg"
+            style="width: 1rem"
+          />
+        </div>
+        <span class="fs-08 text-danger" *ngIf="f.submitted && !password.valid">
+          Password is required
+        </span>
+      </div>
+
+      <div class="form-group mb-2 position-relative">
+        <input
+          type="password"
+          class="form-control border-0"
+          id="confirmPassword"
+          placeholder=" Confirm Password"
+          [(ngModel)]="userRegister.confirm_password"
+          required
+          name="confirm_password"
+          #confirm_password="ngModel"
+          (change)="checkPassword()"
+          (focusout)="checkPassword()"
+        />
+        <div
+          class="position-absolute show-password-icon cursor-pointer"
+          (click)="showConfirmPassword = !showConfirmPassword"
+        >
+          <img
+            *ngIf="!showConfirmPassword"
+            src="assets/images/hidePasswordEyeIcon.svg"
+            style="width: 1rem"
+          />
+          <img
+            *ngIf="showConfirmPassword"
+            src="assets/images/showPasswordEyeIcon.svg"
+            style="width: 1rem"
+          />
+        </div>
+        <span
+          class="fs-08 text-danger"
+          *ngIf="
+            checkPasswordValidation || (f.submitted && !confirm_password.valid)
+          "
+        >
+          Password does not match
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-theme w-100 fs-07 py-3">
+        Sign Up
+      </button>
+
+      <div class="text-center fs-09 my-2">
+        Already have an account?
+        <span class="fw-700 text-theme cursor-pointer" routerLink="/login"
+          >Sign In!</span
+        >
+      </div>
+    </form>
+  </div>
+</div>

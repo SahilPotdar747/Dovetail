@@ -1,0 +1,195 @@
+<div class="modal-header pb-1 mb-2">
+  <h5 class="modal-title fw-700" *ngIf="!isEdit" id="exampleModalLongTitle">
+    New Room Type
+  </h5>
+  <h5 class="modal-title fw-700" *ngIf="isEdit" id="exampleModalLongTitle">
+    Edit Room Type
+  </h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    (click)="cancelModal()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <span class="btn-theme text-white p-2 rounded-top fs-08">Basic Info</span>
+
+  <form class="pt-0 mt-2" #f="ngForm" (ngSubmit)="f.valid && sumbitForm()">
+    <label class="fs-08" for="shortName">
+      Name <span class="text-danger">*</span></label
+    >
+    <input
+      type="text"
+      id="shortName"
+      placeholder="Enter room type name"
+      class="form-control"
+      [(ngModel)]="roomTypeData.name"
+      name="shortName"
+      #shortName="ngModel"
+      required
+    />
+    <span class="fs-08 text-danger" *ngIf="f.submitted && !shortName.valid">
+      Name is required
+    </span>
+
+    <div class="custom-control custom-checkbox d-flex my-3">
+      <input
+        type="checkbox"
+        id="areaIsActive"
+        class="custom-control-input"
+        name="areaIsActive"
+        [(ngModel)]="roomTypeData.isActive"
+        name="isActive"
+        #isActive="ngModel"
+      />
+      <label
+        class="custom-control-label d-flex align-items-center fs-08"
+        for="areaIsActive"
+        >Is Active</label
+      >
+    </div>
+
+    <div class="fs-08 mb-3">
+      <div>Select Tenant Users:</div>
+      <ng-select
+        class="w-50"
+        [(ngModel)]="tenantData._id"
+        #tenantId="ngModel"
+        name="tenantName"
+        (focusout)="onFocusOut(tenantData._id)"
+        [multiple]="true"
+      >
+        <ng-option value="selectAll">
+          <div class="fs-08" id="selectAllTenantId">Select All</div>
+        </ng-option>
+        <ng-option *ngFor="let item of tenantData" [value]="item._id">
+          {{ item.tenant_name }}</ng-option
+        >
+      </ng-select>
+    </div>
+
+    <p class="fs-08 mb-2">Sections</p>
+    <div class="container-fluid" cdkDropListGroup>
+      <div class="row">
+        <div class="col-md-6 available-section">
+          <div
+            class="d-flex justify-content-between align-items-center basic-info-checkbox my-1 py-1"
+          >
+            <b class="fs-08 ml-2">Available</b>
+            <button
+              type="button"
+              (click)="selectAllAvailableSections()"
+              class="btn bg-white select-btn fs-07 px-2 py-1 mr-2"
+            >
+              {{ sectionList.length == 0 ? "Select All" : "Select None" }}
+            </button>
+          </div>
+
+          <div
+            cdkDropList
+            [cdkDropListData]="sectionList"
+            class="section-list bg-light px-2 my-2 custom-scroll-bar"
+            (cdkDropListDropped)="dragDrop($event)"
+          >
+            <div
+              class="section-box p-2 border rounded my-2 bg-white"
+              *ngFor="let item of sectionList"
+              cdkDrag
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 available-section">
+          <div
+            class="d-flex align-items-center justify-content-between basic-info-checkbox my-1 py-1"
+          >
+            <b class="fs-08 ml-2">Selected</b>
+            <div class="d-flex align-items-center">
+              <button
+                type="button"
+                class="btn bg-white select-btn fs-07 px-2 py-1 mr-2"
+                (click)="sortSelectedSectionList()"
+              >
+                Sort All
+              </button>
+              <button
+                type="button"
+                class="btn bg-white select-btn fs-07 px-2 py-1 mr-2"
+                (click)="selectAllSelectedSections()"
+              >
+                {{
+                  selectedSectionList.length == 0 ? "Select All" : "Select None"
+                }}
+              </button>
+            </div>
+          </div>
+
+          <div
+            cdkDropList
+            [cdkDropListData]="selectedSectionList"
+            class="section-list bg-light px-2 my-2 custom-scroll-bar"
+            (cdkDropListDropped)="dragDrop($event)"
+          >
+            <div
+              class="section-box p-2 border rounded my-2 bg-white"
+              *ngFor="let item of selectedSectionList"
+              cdkDrag
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end my-2">
+      <button
+        type="button"
+        class="btn btn-light mx-2 d-flex align-items-center"
+        (click)="cancelModal()"
+      >
+        <img
+          src="assets/images/cancelButton.svg"
+          class="mr-1"
+          style="width: 0.95rem"
+        />
+        <span class="fs-07">Cancel</span>
+      </button>
+      <div class="">
+        <button
+          type="submit"
+          class="btn btn-theme d-flex align-items-center"
+          *ngIf="!isEdit"
+        >
+          <img
+            src="assets/images/addProjectIcon.svg"
+            style="width: 1.06rem"
+            class="mr-1"
+          />
+
+          <span class="fs-07">Create</span>
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-theme d-flex align-items-center"
+          *ngIf="isEdit"
+        >
+          <img
+            src="assets/images/saveCheckIcon.svg"
+            style="width: 0.95rem"
+            class="mr-1"
+          />
+
+          <span class="fs-07">Save</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,27 @@
+.bg-blue-theme {
+  background-color: var(--blue);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.signup-form-container {
+  border-radius: 0.6rem;
+  width: 27rem;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.form-control {
+  min-height: 3rem;
+}
+
+.text-theme {
+  color: var(--brown);
+}
+
+.show-password-icon {
+  top: 0.6rem;
+  right: 1rem;
+}

@@ -1,0 +1,12 @@
+.tenant-user-data td {
+  vertical-align: middle !important;
+  padding: 0.3rem 0 0.3rem 0.8rem !important;
+}
+
+.custom-header-width {
+  width: 25rem;
+}
+
+.custom-table-height {
+  height: calc(100vh - 10.5rem);
+}

@@ -1,0 +1,215 @@
+<div class="px-3">
+  <div class="d-flex align-items-center justify-content-end">
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center"
+      (click)="openCreateNewModal()"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/bgBrownAddIcon.svg"
+        style="width: 1rem"
+      />
+      <span class="fs-07">Add New</span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-ghost rounded px-2 d-flex align-items-center mx-2"
+      data-target="#deletePhaseModal"
+      data-toggle="modal"
+      [disabled]="selectedAll.length > 0 ? false : true"
+    >
+      <img
+        class="mr-1"
+        src="assets/images/deleteBrownProductIcon.svg"
+        style="width: 1.1rem"
+      />
+      <span class="fs-07"> Delete</span>
+    </button>
+
+    <div class="search-container position-relative mr-2 fs-10">
+      <img
+        src="assets/images/search-boxicon.svg"
+        class="d-block input-icon-right"
+      />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search.."
+        [(ngModel)]="searchValue"
+        (ngModelChange)="searchRoomTypes($event)"
+      />
+    </div>
+  </div>
+
+  <div class="row table-row my-3 custom-height">
+    <div class="col-12 table-responsives">
+      <table
+        datatable
+        class="table fs-08 room-types-table table-hover table-container"
+      >
+        <thead>
+          <tr class="bg-light">
+            <th class="border-0">
+              <div
+                class="custom-control custom-checkbox checkbox-select d-flex justify-content-between"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="selectAllCheckbox"
+                  (change)="selectAllCheckbox($event)"
+                  name="selectAllCheckbox"
+                />
+                <label
+                  class="custom-control-label"
+                  for="selectAllCheckbox"
+                ></label>
+              </div>
+            </th>
+
+            <th class="border-0">Name</th>
+            <th class="border-0">Status</th>
+            <th class="border-0">Sections</th>
+          </tr>
+        </thead>
+        <tbody class="fs-08">
+          <tr
+            *ngFor="let item of roomTypes.results"
+            style="border-bottom: 0.063rem solid #dee2e6"
+          >
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input custom-select-all"
+                  [id]="item._id"
+                  (click)="onSelect($event, item)"
+                  [(ngModel)]="item.isChecked"
+                />
+                <label class="custom-control-label" [for]="item._id"></label>
+              </div>
+            </td>
+
+            <td
+              (click)="editPhasesModal(item)"
+              class="cursor-pointer border-top-0"
+            >
+              <div
+                class="system-table-container"
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ item?.name }}
+              </div>
+            </td>
+
+            <td class="border-top-0">
+              <div class="custom-control custom-checkbox checkbox-select">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [(ngModel)]="item.isActive"
+                  name="isActive"
+                  #isActive="ngModel"
+                />
+                <label class="custom-control-label"></label>
+              </div>
+            </td>
+
+            <td
+              (click)="editPhasesModal(item)"
+              class="cursor-pointer border-top-0"
+            >
+              <div
+                class="system-table-container"
+                data-toggle="modal"
+                data-target="#exampleModalCenter1"
+              >
+                {{ item?.sections.length }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 d-flex align-items-center justify-content-between">
+  <div class="d-flex text-secondary fs-08 mb-3">
+    <span>{{ selectedAll.length }} Selected/</span>
+    <span>{{ roomTypes?.results?.length }} Total</span>
+  </div>
+  <pagination
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+    [totalItems]="roomTypes.totalResults"
+    [itemsPerPage]="roomTypes.limit"
+    [(ngModel)]="currentPage"
+    (pageChanged)="pageChanged($event)"
+  >
+  </pagination>
+</div>
+
+<!-- Delete Modal Code Here -->
+<div class="modal fade" tabindex="-1" id="deletePhaseModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-2">
+        <h5 class="modal-title delete-modal-header fw-700">
+          Delete Room Types
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body fs-08">
+        <div class="">
+          <span class="fw-500 pr-2"
+            >Are you sure you want to delete room type(s):</span
+          >
+          <label class="pr-1 mb-0" *ngFor="let item of deleteAreaName"
+            >{{ item?.name }} <label *ngIf="deleteAreaName.length > 1">,</label>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button
+          type="button"
+          class="btn btn-light mx-2 d-flex align-items-center"
+          data-dismiss="modal"
+        >
+          <img
+            src="assets/images/cancelButton.svg"
+            class="mr-1"
+            style="width: 0.95rem"
+          />
+          <span class="fs-07">Cancel</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-theme mx-2 d-flex align-items-center"
+          data-dismiss="modal"
+          (click)="deleteArea()"
+        >
+          <img
+            src="assets/images/deleteRoomIcon.svg"
+            class="mr-1"
+            style="width: 0.95rem"
+          />
+          <span class="fs-07">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

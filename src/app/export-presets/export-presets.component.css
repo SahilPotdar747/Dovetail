@@ -1,0 +1,32 @@
+.export-preset-page-link {
+  border-radius: 0.44rem;
+  height: 2.1rem;
+  width: 2rem;
+  font-size: 0.66rem;
+  padding-top: 0.6rem;
+  color: #c2c6c5;
+}
+
+.export-preset-page-item {
+  background-color: var(--brown);
+  color: white;
+}
+
+.custom-table-body {
+  height: calc(100vh - 14rem);
+}
+
+.export-preset-table td {
+  padding: 0.3rem 0 0.3rem 0.8rem !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid var(--gray-4);
+}
+
+.export-preset-table thead tr th:first-child,
+.export-preset-table tbody tr td:first-child {
+  width: 3rem;
+}
+
+.export-preset-table thead tr th {
+  vertical-align: middle !important;
+}

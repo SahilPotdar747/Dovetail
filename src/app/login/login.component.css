@@ -1,0 +1,21 @@
+.bg-blue-theme {
+  background-color: var(--blue);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.login-form-container {
+  border-radius: 0.6rem;
+  width: 27rem;
+}
+
+.form-control {
+  min-height: 3rem;
+}
+
+.text-theme {
+  color: var(--brown);
+}
